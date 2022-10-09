@@ -2,7 +2,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined'
 import LineAxisOutlinedIcon from '@mui/icons-material/LineAxisOutlined'
 import SplitscreenIcon from '@mui/icons-material/Splitscreen'
-import { Stack, Typography } from '@mui/material'
+import { Stack } from '@mui/material'
 
 import { WhiteTypograpy } from './Layout'
 export const Sidebar = () => {
