@@ -1,8 +1,8 @@
-import { Grid, Hidden, styled, Typography } from '@mui/material'
+import { Grid, Hidden } from '@mui/material'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
-import { backgroundColor } from '@/styles'
+import { backgroundColor, GridWithBackground } from '@/styles'
 
 import { CustomDrawer } from './Drawer/CustomDrawer'
 import { Header } from './Header'
@@ -34,19 +34,4 @@ export const Layout = () => {
       </Grid>
     </Grid>
   )
-}
-export const AlignGrid = styled(Grid)({
-  display: 'flex',
-  alignItems: 'center',
-})
-export const GridWithBackground = styled(Grid)({
-  backgroundColor: backgroundColor['primary'],
-})
-
-export const WhiteTypograpy = styled(Typography)({
-  color: 'white',
-})
-
-export const whiteColorStyle = {
-  color: 'white',
 }

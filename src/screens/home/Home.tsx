@@ -39,25 +39,25 @@ export const Home = () => {
         width: 10,
       },
       {
-        Header: 'name',
+        Header: 'Name',
         accessor: 'name',
         width: 200,
       },
       {
-        Header: 'price',
+        Header: 'Price',
         accessor: 'current_price',
         width: 200,
       },
       {
-        Header: 'price_change_percentage_24h',
+        Header: '24h %',
         accessor: 'price_change_percentage_24h',
       },
       {
-        Header: 'market_cap',
+        Header: 'Market capatialization',
         accessor: 'market_cap',
       },
       {
-        Header: 'circulating_supply',
+        Header: 'Circulating supply',
         accessor: 'circulating_supply',
       },
     ],

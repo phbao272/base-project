@@ -4,7 +4,8 @@ import LineAxisOutlinedIcon from '@mui/icons-material/LineAxisOutlined'
 import SplitscreenIcon from '@mui/icons-material/Splitscreen'
 import { Stack } from '@mui/material'
 
-import { WhiteTypograpy } from './Layout'
+import { WhiteTypograpy } from '@/styles'
+
 export const Sidebar = () => {
   const sidebarList = [
     {

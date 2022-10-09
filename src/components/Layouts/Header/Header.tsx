@@ -1,9 +1,8 @@
 import { Avatar, Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
 
-import { backgroundColor, yellow } from '@/styles'
+import { AlignGrid, backgroundColor, whiteColorStyle, yellow } from '@/styles'
 
-import { AlignGrid, whiteColorStyle } from '../Layout'
 import { Search } from './Search'
 
 export const Header = () => {
