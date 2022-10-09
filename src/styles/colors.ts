@@ -5,6 +5,9 @@ export const red = {
 export const green = {
   primary: '#16C784',
 }
+export const yellow = {
+  primary: '#FECD57',
+}
 
 export const blue = {
   primary: '#3861FB',
@@ -12,4 +15,5 @@ export const blue = {
 
 export const backgroundColor = {
   primary: '#191F3A',
+  main: '#0C1023',
 }
