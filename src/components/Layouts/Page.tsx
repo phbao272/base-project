@@ -5,9 +5,10 @@ import { backgroundColor } from '@/styles'
 
 type PageProps = {
   title?: string
+  sxCustom?: any
 } & PaperProps
 
-export const Page = ({ title, children, ...props }: PageProps) => {
+export const Page = ({ title, children, sxCustom, ...props }: PageProps) => {
   return (
     <Paper
       // elevation={1}
@@ -16,6 +17,7 @@ export const Page = ({ title, children, ...props }: PageProps) => {
         margin: '8px 0',
         borderRadius: 2,
         backgroundColor: backgroundColor['primary'],
+        ...sxCustom,
       }}
       {...props}
     >

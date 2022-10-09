@@ -1,11 +1,14 @@
-import { Grid, Stack, Typography } from '@mui/material'
+import { Box, Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { Column } from 'react-table'
 
 import { Card } from '@/components'
 import { ReactTableWithToolBar } from '@/components/ReactTable'
-import { green, WhiteTypograpy } from '@/styles'
+import { green, imageStyle, strokeColor, WhiteTypograpy } from '@/styles'
+
+import viberateLogo from '../../assets/images/viberate_logo.png'
+// import viberateLogo from '@/viberate_logo.png'
 
 type ColType = {
   id: string
@@ -31,6 +34,48 @@ export const Home = () => {
       keepPreviousData: true,
     },
   )
+
+  const trendingList = [
+    {
+      index: 1,
+      name: 'Viberate',
+      code: 'VIB',
+      variable: 0.02,
+    },
+    {
+      index: 2,
+      name: 'Viberate',
+      code: 'VIB',
+      variable: 0.02,
+    },
+    {
+      index: 3,
+      name: 'Viberate',
+      code: 'VIB',
+      variable: 0.02,
+    },
+  ]
+
+  const recentlyAddList = [
+    {
+      index: 1,
+      name: 'Viberate',
+      code: 'VIB',
+      variable: 0.02,
+    },
+    {
+      index: 2,
+      name: 'Viberate',
+      code: 'VIB',
+      variable: 0.02,
+    },
+    {
+      index: 3,
+      name: 'Viberate',
+      code: 'VIB',
+      variable: 0.02,
+    },
+  ]
 
   console.log({ data })
 
@@ -78,37 +123,35 @@ export const Home = () => {
   }
   return (
     <div>
-      <ReactTableWithToolBar
-        title="Top các loại tiền điện tử theo khối lượng"
-        columns={columns}
-        data={data || []}
-        // handleChangeParams={handleChangeParams}
-        // {...paginationData}
-        // pageCount={10}
-        // manualPagination={true}
-      />
       <Grid container spacing={3}>
+        <Grid item {...gridFull}>
+          <ReactTableWithToolBar
+            sxCustom={{ border: `1px solid ${strokeColor['primary']}` }}
+            title="Top các loại tiền điện tử theo khối lượng"
+            columns={columns}
+            data={data || []}
+            // handleChangeParams={handleChangeParams}
+            // {...paginationData}
+            // pageCount={10}
+            // manualPagination={true}
+          />
+        </Grid>
         <Grid item {...grid}>
           <Card title="Trending">
             <Stack spacing={2}>
-              <Stack direction="row">
-                <WhiteTypograpy>1</WhiteTypograpy>
-                <WhiteTypograpy>Viberate</WhiteTypograpy>
-                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
-                <Typography color={green['primary']}>0.02%</Typography>
-              </Stack>
-              <Stack direction="row">
-                <WhiteTypograpy>1</WhiteTypograpy>
-                <WhiteTypograpy>Viberate</WhiteTypograpy>
-                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
-                <Typography color={green['primary']}>0.02%</Typography>
-              </Stack>
-              <Stack direction="row">
-                <WhiteTypograpy>1</WhiteTypograpy>
-                <WhiteTypograpy>Viberate</WhiteTypograpy>
-                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
-                <Typography color={green['primary']}>0.02%</Typography>
-              </Stack>
+              {/* start */}
+              {trendingList.map((item, index) => (
+                <Stack key={index} direction="row" justifyContent="space-between">
+                  <Stack direction="row" spacing={3}>
+                    <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.index}</WhiteTypograpy>
+                    <Box sx={{ ...imageStyle }} component="img" src={viberateLogo} />
+                    <WhiteTypograpy>{item.name}</WhiteTypograpy>
+                    <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.code}</WhiteTypograpy>
+                  </Stack>
+                  <Typography color={green['primary']}>{item.variable}</Typography>
+                </Stack>
+              ))}
+              {/* end */}
             </Stack>
           </Card>
         </Grid>
@@ -116,24 +159,18 @@ export const Home = () => {
         <Grid item {...grid}>
           <Card title="Trending">
             <Stack spacing={2}>
-              <Stack direction="row">
-                <WhiteTypograpy>1</WhiteTypograpy>
-                <WhiteTypograpy>Viberate</WhiteTypograpy>
-                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
-                <Typography color={green['primary']}>0.02%</Typography>
-              </Stack>
-              <Stack direction="row">
-                <WhiteTypograpy>1</WhiteTypograpy>
-                <WhiteTypograpy>Viberate</WhiteTypograpy>
-                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
-                <Typography color={green['primary']}>0.02%</Typography>
-              </Stack>
-              <Stack direction="row">
-                <WhiteTypograpy>1</WhiteTypograpy>
-                <WhiteTypograpy>Viberate</WhiteTypograpy>
-                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
-                <Typography color={green['primary']}>0.02%</Typography>
-              </Stack>
+              {/* start */}
+              {recentlyAddList.map((item, index) => (
+                <Stack key={index} direction="row" justifyContent="space-between">
+                  <Stack direction="row" spacing={3}>
+                    <WhiteTypograpy>{item.index}</WhiteTypograpy>
+                    <WhiteTypograpy>{item.name}</WhiteTypograpy>
+                    <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.code}</WhiteTypograpy>
+                  </Stack>
+                  <Typography color={green['primary']}>{item.variable}</Typography>
+                </Stack>
+              ))}
+              {/* end */}
             </Stack>
           </Card>
         </Grid>

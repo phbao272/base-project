@@ -7,8 +7,16 @@ export const BoxHeader = styled(Typography)(({ theme }) => ({
   fontSize: '1.5rem',
   lineHeight: '29px',
   color: '#fff',
+  marginBottom: '24px',
 }))
-
+export const BoxImage = styled(Box)({
+  width: 28,
+  height: 28,
+})
+export const imageStyle = {
+  width: 20,
+  height: 20,
+}
 export const BoxFlexCenterSpaceBetween = styled(Box)({
   display: 'flex',
   justifyContent: 'space-between',
@@ -30,4 +38,6 @@ export const whiteColorStyle = {
   color: 'white',
 }
 
-
+// export const BoxGreyBorder = styled(Box)({
+//   border: ''
+// })

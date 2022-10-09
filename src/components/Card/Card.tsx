@@ -14,9 +14,9 @@ export const Card = ({ title, children, hasMore = true }: CardProps) => {
     <Box
       sx={{
         padding: '20px',
-        borderRadius: 8,
+        borderRadius: 1,
         backgroundColor: backgroundColor['primary'],
-        border: `1px solic ${strokeColor['primary']}`,
+        border: `1px solid ${strokeColor['primary']}`,
         overflow: 'hidden',
       }}
     >

@@ -8,16 +8,18 @@ interface ReactTableWithToolBarProps<T extends object> extends TableOptions<T> {
   data: readonly T[]
   columns: any[]
   title?: string
+  sxCustom?: any
 }
 
 function ReactTableWithToolBar<T extends object>({
   data,
   columns,
   title,
+  sxCustom,
   ...props
 }: ReactTableWithToolBarProps<T>) {
   return (
-    <Page title={title}>
+    <Page title={title} sxCustom={sxCustom}>
       <ReactTable
         columns={columns}
         data={data || []}
