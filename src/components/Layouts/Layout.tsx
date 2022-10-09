@@ -9,9 +9,16 @@ import { Header } from './Header'
 import { Sidebar } from './Sidebar'
 export const Layout = () => {
   return (
-    <Grid sx={{ backgroundColor: backgroundColor['main'] }} container spacing={2}>
+    <Grid
+      sx={{ backgroundColor: backgroundColor['main'] }}
+      container
+      rowSpacing={3}
+      columnSpacing={6}
+    >
       {/* Header */}
-      <Header />
+      <Grid item xs={12}>
+        <Header />
+      </Grid>
 
       {/* Sidebar / Drawer */}
       <Hidden smDown>
@@ -24,7 +31,7 @@ export const Layout = () => {
       </Hidden>
 
       {/* Main */}
-      <Grid item xs={12} sm={10}>
+      <Grid item xs={12} sm={10} pr={6}>
         <Outlet />
       </Grid>
 

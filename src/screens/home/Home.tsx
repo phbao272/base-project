@@ -1,8 +1,11 @@
+import { Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { Column } from 'react-table'
 
+import { Card } from '@/components'
 import { ReactTableWithToolBar } from '@/components/ReactTable'
+import { green, WhiteTypograpy } from '@/styles'
 
 type ColType = {
   id: string
@@ -64,6 +67,15 @@ export const Home = () => {
     [],
   )
 
+  const grid = {
+    xs: 12,
+    md: 6,
+  }
+
+  const gridFull = {
+    xs: 12,
+    md: 12,
+  }
   return (
     <div>
       <ReactTableWithToolBar
@@ -75,6 +87,57 @@ export const Home = () => {
         // pageCount={10}
         // manualPagination={true}
       />
+      <Grid container spacing={3}>
+        <Grid item {...grid}>
+          <Card title="Trending">
+            <Stack spacing={2}>
+              <Stack direction="row">
+                <WhiteTypograpy>1</WhiteTypograpy>
+                <WhiteTypograpy>Viberate</WhiteTypograpy>
+                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
+                <Typography color={green['primary']}>0.02%</Typography>
+              </Stack>
+              <Stack direction="row">
+                <WhiteTypograpy>1</WhiteTypograpy>
+                <WhiteTypograpy>Viberate</WhiteTypograpy>
+                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
+                <Typography color={green['primary']}>0.02%</Typography>
+              </Stack>
+              <Stack direction="row">
+                <WhiteTypograpy>1</WhiteTypograpy>
+                <WhiteTypograpy>Viberate</WhiteTypograpy>
+                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
+                <Typography color={green['primary']}>0.02%</Typography>
+              </Stack>
+            </Stack>
+          </Card>
+        </Grid>
+
+        <Grid item {...grid}>
+          <Card title="Trending">
+            <Stack spacing={2}>
+              <Stack direction="row">
+                <WhiteTypograpy>1</WhiteTypograpy>
+                <WhiteTypograpy>Viberate</WhiteTypograpy>
+                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
+                <Typography color={green['primary']}>0.02%</Typography>
+              </Stack>
+              <Stack direction="row">
+                <WhiteTypograpy>1</WhiteTypograpy>
+                <WhiteTypograpy>Viberate</WhiteTypograpy>
+                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
+                <Typography color={green['primary']}>0.02%</Typography>
+              </Stack>
+              <Stack direction="row">
+                <WhiteTypograpy>1</WhiteTypograpy>
+                <WhiteTypograpy>Viberate</WhiteTypograpy>
+                <WhiteTypograpy sx={{ opacity: 0.5 }}>VIB</WhiteTypograpy>
+                <Typography color={green['primary']}>0.02%</Typography>
+              </Stack>
+            </Stack>
+          </Card>
+        </Grid>
+      </Grid>
     </div>
   )
 }

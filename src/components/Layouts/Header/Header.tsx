@@ -1,18 +1,17 @@
 import { Avatar, Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
 
-import { AlignGrid, backgroundColor, whiteColorStyle, yellow } from '@/styles'
+import { AlignGrid, backgroundColor, strokeColor, whiteColorStyle, yellow } from '@/styles'
 
 import { Search } from './Search'
 
 export const Header = () => {
   return (
     <Grid
-      item
       container
       sx={{
         backgroundColor: backgroundColor['primary'],
-        borderBottom: '1px solid #797C87',
+        borderBottom: `1px solid ${strokeColor['primary']}`,
         height: '90px',
       }}
       spacing={2}

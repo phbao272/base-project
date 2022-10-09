@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 
-import { backgroundColor, blue, BoxFlexCenterSpaceBetween, BoxHeader } from '@/styles'
+import { backgroundColor, blue, BoxFlexCenterSpaceBetween, BoxHeader, strokeColor } from '@/styles'
 
 interface CardProps {
   title: string
@@ -16,7 +16,7 @@ export const Card = ({ title, children, hasMore = true }: CardProps) => {
         padding: '20px',
         borderRadius: 8,
         backgroundColor: backgroundColor['primary'],
-        border: '1px solid rgba(255, 255, 255, 0.5)',
+        border: `1px solic ${strokeColor['primary']}`,
         overflow: 'hidden',
       }}
     >

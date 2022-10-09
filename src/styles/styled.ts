@@ -29,3 +29,5 @@ export const WhiteTypograpy = styled(Typography)({
 export const whiteColorStyle = {
   color: 'white',
 }
+
+
