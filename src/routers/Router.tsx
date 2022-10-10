@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
+import { ChartCoint } from '@/components/Charts/ChartCoint'
 import { Layout } from '@/components/Layouts'
 import { Home, NotFound } from '@/screens'
 import { Login } from '@/screens/auth'
@@ -11,6 +12,7 @@ export const Router = () => {
       <Route path="/login" element={<Login />} />
 
       <Route path="/" element={<Layout />}>
+        <Route path="/chart" element={<ChartCoint />} />
         <Route index element={<Home />} />
       </Route>
       <Route path="*" element={<NotFound />} />
