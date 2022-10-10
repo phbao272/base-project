@@ -21,3 +21,7 @@ export const backgroundColor = {
   primary: '#191F3A',
   main: '#0C1023',
 }
+
+export const grey = {
+  primary: '#EFF2F5',
+}

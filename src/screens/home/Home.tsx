@@ -3,11 +3,11 @@ import React from 'react'
 import { useQuery } from 'react-query'
 import { Column } from 'react-table'
 
-import { Card } from '@/components'
+import viberateLogo from '@/assets/images/viberate_logo.png'
+import { Card, TextChangePercent } from '@/components'
 import { ReactTableWithToolBar } from '@/components/ReactTable'
+import { numberWithCommas } from '@/libs/utils'
 import { green, imageStyle, strokeColor, WhiteTypograpy } from '@/styles'
-
-import viberateLogo from '../../assets/images/viberate_logo.png'
 // import viberateLogo from '@/viberate_logo.png'
 
 type ColType = {
@@ -23,7 +23,6 @@ type ColType = {
 const endpoint = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd'
 
 export const Home = () => {
-  // const [params, setParams] = React.useState({ _page: 0, _limit: 5 })
   const [params, setParams] = React.useState({})
 
   // const { paginationData, handleChangeParams, refetch } = usePaginationQuery<any>(endpoint, params)
@@ -95,18 +94,30 @@ export const Home = () => {
         Header: 'Price',
         accessor: 'current_price',
         width: 200,
+        Cell: ({ value }) => {
+          return `$${numberWithCommas(value)}`
+        },
       },
       {
         Header: '24h %',
         accessor: 'price_change_percentage_24h',
+        Cell: ({ value }) => {
+          return <TextChangePercent num={value} />
+        },
       },
       {
         Header: 'Market capatialization',
         accessor: 'market_cap',
+        Cell: ({ value }) => {
+          return `$${numberWithCommas(value)}`
+        },
       },
       {
         Header: 'Circulating supply',
         accessor: 'circulating_supply',
+        Cell: ({ value }) => {
+          return `$${numberWithCommas(value)}`
+        },
       },
     ],
     [],

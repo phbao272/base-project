@@ -3,7 +3,8 @@ import React, { ReactElement } from 'react'
 import { TableOptions, usePagination, useSortBy, useTable } from 'react-table'
 import styled from 'styled-components'
 
-import { ArrowDropDownIcon, ArrowDropUpIcon } from '@/components'
+import { ArrowDropDownIcon, ArrowDropUpIcon, FilterOutline } from '@/components'
+import { grey } from '@/styles'
 
 // Pass params
 // pageCount={10}
@@ -53,6 +54,7 @@ const Styles = styled.div`
     td {
       margin: 0;
       padding: 0.5rem;
+
       border-bottom: 1px solid rgba(196, 196, 196, 0.56);
 
       font-weight: 700;
@@ -135,14 +137,20 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
 
   return (
     <Styles>
-      <div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 4 }}>
         <span style={{ fontWeight: 500, fontSize: '14px', color: '#fff' }}>Hiển thị hàng </span>
         <select
           value={pageSize}
           onChange={(e) => {
             setPageSize(Number(e.target.value))
           }}
-          style={{ padding: 4 }}
+          style={{
+            padding: 4,
+            height: 29,
+            backgroundColor: grey['primary'],
+            cursor: 'pointer',
+            borderRadius: 8,
+          }}
         >
           {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
@@ -150,6 +158,23 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
             </option>
           ))}
         </select>
+        <span
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            padding: 4,
+            backgroundColor: grey['primary'],
+            fontSize: 14,
+            fontWeight: 'bold',
+            height: 27,
+            gap: 4,
+            cursor: 'pointer',
+            borderRadius: 8,
+          }}
+        >
+          <FilterOutline />
+          Bộ lọc
+        </span>
       </div>
 
       <div className="tableWrap">
@@ -219,7 +244,7 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
         </table>
       </div>
 
-      <div className="pagination">
+      <div className="pagination" style={{ textAlign: 'right' }}>
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
         </button>{' '}
