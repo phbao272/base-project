@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom'
 
 import { backgroundColor, GridWithBackground } from '@/styles'
 
-import { CustomDrawer } from './Drawer/CustomDrawer'
 import { Header } from './Header'
 import { SubHeader } from './Header/SubHeader'
 import { Sidebar } from './Sidebar'
@@ -32,9 +31,9 @@ export const Layout = () => {
           <Sidebar />
         </GridWithBackground>
       </Hidden>
-      <Hidden smUp>
+      {/* <Hidden smUp>
         <CustomDrawer />
-      </Hidden>
+      </Hidden> */}
 
       {/* Main */}
       <Grid item xs={12} sm={10} pr={{ xs: 1, sm: 6 }}>
