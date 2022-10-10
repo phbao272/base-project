@@ -1,4 +1,4 @@
-import { Box, Grid, styled, Typography } from '@mui/material'
+import { Box, Grid, Link, MenuItem, styled, Typography } from '@mui/material'
 
 import { backgroundColor } from './colors'
 
@@ -41,6 +41,13 @@ export const whiteColorStyle = {
 export const responsiveTextStyle = {
   fontSize: { xs: 12, sm: 14 },
 }
+export const SidebarMenuItem = styled(MenuItem)({
+  width: '100%',
+})
+
+export const CustomLink = styled(Link)({
+  textDecoration: 'none',
+})
 
 // export const BoxGreyBorder = styled(Box)({
 //   border: ''
