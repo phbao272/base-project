@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material'
 import { Stack } from '@mui/system'
-import { graphic } from 'echarts'
 import {
   CallbackDataParams,
   TooltipFormatterCallback,
@@ -9,13 +8,6 @@ import {
 import ReactDOMServer from 'react-dom/server'
 
 import { BarLineChartOption, data } from './BarLineChart'
-
-export const DataX = new Array(498).fill('10:15 AM')
-
-export const DataY = {
-  two: new Array(498).fill(400),
-  four: new Array(498).fill(0).map(() => Math.floor(Math.random() * (69 - 40 + 1)) + 40),
-}
 
 function Tooltip(props: any) {
   return (
@@ -42,7 +34,7 @@ function Tooltip(props: any) {
   )
 }
 
-const ChartOptions = (data: data) => {
+const MarketChartOption = (data: data) => {
   const dataMax = Math.max(...data.dataY.two)
   const arrayTemp = new Array(dataMax.toString().length).fill(0)
   arrayTemp.unshift(5)
@@ -86,15 +78,13 @@ const ChartOptions = (data: data) => {
             type: 'solid',
           },
         },
-        data: DataX,
+        data: data.dataX,
       },
     ],
     yAxis: [
       {
         type: 'value',
-        min: 0,
-        max: 100,
-        interval: 10,
+
         axisLabel: {
           formatter: (value: number) => {
             return value + 'k'
@@ -175,6 +165,7 @@ const ChartOptions = (data: data) => {
         end: 100,
       },
     ],
+
     series: [
       {
         name: 'Price',
@@ -183,27 +174,13 @@ const ChartOptions = (data: data) => {
 
         lineStyle: {
           width: 2,
-          color: 'green',
         },
         emphasis: {
           focus: 'series',
         },
         smooth: false,
         symbol: 'none',
-        areaStyle: {
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'lightgreen',
-            },
-            {
-              offset: 1,
-              color: 'white',
-            },
-          ]),
-          origin: 'start',
-        },
-        data: DataY.four,
+        data: data.dataY.four,
       },
       {
         name: 'Volume',
@@ -215,11 +192,11 @@ const ChartOptions = (data: data) => {
         emphasis: {
           focus: 'series',
         },
-        data: DataY.two,
+        data: data.dataY.two,
       },
     ],
   }
   return option
 }
 
-export { ChartOptions }
+export { MarketChartOption }
