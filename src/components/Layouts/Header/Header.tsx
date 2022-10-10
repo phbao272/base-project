@@ -1,7 +1,14 @@
-import { Avatar, Grid, Stack, Typography } from '@mui/material'
+import { Avatar, Grid, Hidden, Stack, Typography } from '@mui/material'
 import React from 'react'
 
-import { AlignGrid, backgroundColor, strokeColor, whiteColorStyle, yellow } from '@/styles'
+import {
+  AlignGrid,
+  backgroundColor,
+  responsiveTextStyle,
+  strokeColor,
+  whiteColorStyle,
+  yellow,
+} from '@/styles'
 
 import { Search } from './Search'
 
@@ -36,27 +43,31 @@ export const Header = () => {
         </Typography>
       </AlignGrid>
       <AlignGrid item container xs={10}>
-        <Grid item xs={4}>
-          <Stack direction="row" justifyContent="space-around">
-            <Typography sx={{ ...whiteColorStyle }} component="span">
-              Tracking List
-            </Typography>
-            <Typography sx={{ ...whiteColorStyle }} component="span">
-              Menu
-            </Typography>
-          </Stack>
-        </Grid>
+        <Hidden smDown>
+          <Grid item xs={4}>
+            <Stack direction="row" justifyContent="space-around">
+              <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
+                Tracking List
+              </Typography>
+              <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
+                Menu
+              </Typography>
+            </Stack>
+          </Grid>
+        </Hidden>
         <Grid item xs={4}>
           <Search />
         </Grid>
         <Grid item xs={4}>
           <Stack direction="row" justifyContent="space-around" alignItems="center">
-            <Typography sx={{ ...whiteColorStyle }} component="span">
-              Sign In
-            </Typography>
-            <Typography sx={{ ...whiteColorStyle }} component="span">
-              Sign Up
-            </Typography>
+            <Hidden smDown>
+              <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
+                Sign In
+              </Typography>
+              <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
+                Sign Up
+              </Typography>
+            </Hidden>
             <Avatar
               sx={{ width: '32px', height: '32px' }}
               alt="Remy Sharp"

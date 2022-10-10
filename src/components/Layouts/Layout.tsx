@@ -6,6 +6,7 @@ import { backgroundColor, GridWithBackground } from '@/styles'
 
 import { CustomDrawer } from './Drawer/CustomDrawer'
 import { Header } from './Header'
+import { SubHeader } from './Header/SubHeader'
 import { Sidebar } from './Sidebar'
 export const Layout = () => {
   return (
@@ -19,6 +20,11 @@ export const Layout = () => {
       <Grid item xs={12}>
         <Header />
       </Grid>
+      <Hidden smUp>
+        <Grid item xs={12}>
+          <SubHeader />
+        </Grid>
+      </Hidden>
 
       {/* Sidebar / Drawer */}
       <Hidden smDown>
@@ -31,7 +37,7 @@ export const Layout = () => {
       </Hidden>
 
       {/* Main */}
-      <Grid item xs={12} sm={10} pr={6}>
+      <Grid item xs={12} sm={10} pr={{ xs: 1, sm: 6 }}>
         <Outlet />
       </Grid>
 

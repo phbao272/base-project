@@ -38,6 +38,10 @@ export const whiteColorStyle = {
   color: 'white',
 }
 
+export const responsiveTextStyle = {
+  fontSize: { xs: 12, sm: 14 },
+}
+
 // export const BoxGreyBorder = styled(Box)({
 //   border: ''
 // })

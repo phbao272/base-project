@@ -19,7 +19,6 @@ interface TableProperties<T extends object> extends TableOptions<T> {
 }
 
 const Styles = styled.div`
-  /* This is required to make the table full-width */
   display: block;
   max-width: 100%;
 
@@ -27,8 +26,8 @@ const Styles = styled.div`
   .tableWrap {
     display: block;
     max-width: 100%;
-    // overflow-x: scroll;
-    // overflow-y: hidden;
+    overflow-x: scroll;
+    overflow-y: hidden;
     border-bottom: 1px solid #eff2f5;
   }
 

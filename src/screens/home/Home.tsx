@@ -122,59 +122,58 @@ export const Home = () => {
     md: 12,
   }
   return (
-    <div>
-      <Grid container spacing={3}>
-        <Grid item {...gridFull}>
-          <ReactTableWithToolBar
-            sxCustom={{ border: `1px solid ${strokeColor['primary']}` }}
-            title="Top các loại tiền điện tử theo khối lượng"
-            columns={columns}
-            data={data || []}
-            // handleChangeParams={handleChangeParams}
-            // {...paginationData}
-            // pageCount={10}
-            // manualPagination={true}
-          />
-        </Grid>
-        <Grid item {...grid}>
-          <Card title="Trending">
-            <Stack spacing={2}>
-              {/* start */}
-              {trendingList.map((item, index) => (
-                <Stack key={index} direction="row" justifyContent="space-between">
-                  <Stack direction="row" spacing={3}>
-                    <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.index}</WhiteTypograpy>
-                    <Box sx={{ ...imageStyle }} component="img" src={viberateLogo} />
-                    <WhiteTypograpy>{item.name}</WhiteTypograpy>
-                    <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.code}</WhiteTypograpy>
-                  </Stack>
-                  <Typography color={green['primary']}>{item.variable}</Typography>
-                </Stack>
-              ))}
-              {/* end */}
-            </Stack>
-          </Card>
-        </Grid>
-
-        <Grid item {...grid}>
-          <Card title="Trending">
-            <Stack spacing={2}>
-              {/* start */}
-              {recentlyAddList.map((item, index) => (
-                <Stack key={index} direction="row" justifyContent="space-between">
-                  <Stack direction="row" spacing={3}>
-                    <WhiteTypograpy>{item.index}</WhiteTypograpy>
-                    <WhiteTypograpy>{item.name}</WhiteTypograpy>
-                    <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.code}</WhiteTypograpy>
-                  </Stack>
-                  <Typography color={green['primary']}>{item.variable}</Typography>
-                </Stack>
-              ))}
-              {/* end */}
-            </Stack>
-          </Card>
-        </Grid>
+    <Grid container spacing={3} pl={{ xs: 1, sm: 'unset' }}>
+      <Grid item {...gridFull}>
+        <ReactTableWithToolBar
+          sxCustom={{ border: `1px solid ${strokeColor['primary']}` }}
+          title="Top các loại tiền điện tử theo khối lượng"
+          columns={columns}
+          data={data || []}
+          // handleChangeParams={handleChangeParams}
+          // {...paginationData}
+          // pageCount={10}
+          // manualPagination={true}
+        />
       </Grid>
-    </div>
+      <Grid item {...grid}>
+        <Card title="Trending">
+          <Stack spacing={2}>
+            {/* start */}
+            {trendingList.map((item, index) => (
+              <Stack key={index} direction="row" justifyContent="space-between">
+                <Stack direction="row" spacing={3}>
+                  <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.index}</WhiteTypograpy>
+                  <Box sx={{ ...imageStyle }} component="img" src={viberateLogo} />
+                  <WhiteTypograpy>{item.name}</WhiteTypograpy>
+                  <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.code}</WhiteTypograpy>
+                </Stack>
+                <Typography color={green['primary']}>{item.variable}</Typography>
+              </Stack>
+            ))}
+            {/* end */}
+          </Stack>
+        </Card>
+      </Grid>
+
+      <Grid item {...grid}>
+        <Card title="Trending">
+          <Stack spacing={2}>
+            {/* start */}
+            {recentlyAddList.map((item, index) => (
+              <Stack key={index} direction="row" justifyContent="space-between">
+                <Stack direction="row" spacing={3}>
+                  <WhiteTypograpy>{item.index}</WhiteTypograpy>
+                  <Box sx={{ ...imageStyle }} component="img" src={viberateLogo} />
+                  <WhiteTypograpy>{item.name}</WhiteTypograpy>
+                  <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.code}</WhiteTypograpy>
+                </Stack>
+                <Typography color={green['primary']}>{item.variable}</Typography>
+              </Stack>
+            ))}
+            {/* end */}
+          </Stack>
+        </Card>
+      </Grid>
+    </Grid>
   )
 }
