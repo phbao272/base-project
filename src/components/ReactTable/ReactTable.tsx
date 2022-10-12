@@ -122,10 +122,10 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
 
   // console.log({ useTableOptions })
 
-  console.log({ pageIndex, pageSize, rows, page, pageOptions, gotoPage, nextPage })
+  // console.log({ pageIndex, pageSize, rows, page, pageOptions, gotoPage, nextPage })
 
   React.useEffect(() => {
-    console.log({ pageIndex, pageSize })
+    // console.log({ pageIndex, pageSize })
     // handleChangeParams({ _page: pageIndex, _limit: pageSize })
   }, [pageIndex, pageSize])
 
