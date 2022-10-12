@@ -7,42 +7,43 @@ import { Stack } from '@mui/material'
 // import { Link } from 'react-router-dom'
 import { CustomLink, SidebarMenuItem, WhiteTypograpy, yellow } from '@/styles'
 
+export const sidebarList = [
+  {
+    name: 'All kind of currency',
+    icon: <DashboardCustomizeOutlinedIcon sx={{ color: 'white' }} />,
+    link: '#',
+  },
+  {
+    name: 'Exchange',
+    icon: <CurrencyExchangeIcon sx={{ color: 'white' }} />,
+    link: '#',
+  },
+  {
+    name: 'Comunity',
+    icon: <DashboardCustomizeOutlinedIcon sx={{ color: 'white' }} />,
+    link: '#',
+  },
+  {
+    name: 'Product',
+    icon: <SplitscreenIcon sx={{ color: 'white' }} />,
+    link: '#',
+  },
+  {
+    name: 'Contact',
+    icon: <DashboardCustomizeOutlinedIcon sx={{ color: 'white' }} />,
+    link: '#',
+  },
+  {
+    name: 'VIEW DEMO CHART',
+    icon: <LineAxisOutlinedIcon sx={{ color: 'white' }} />,
+    link: '/chart',
+    sxCustom: { color: yellow['primary'] },
+  },
+]
+
 export const Sidebar = () => {
-  const sidebarList = [
-    {
-      name: 'All kind of currency',
-      icon: <DashboardCustomizeOutlinedIcon sx={{ color: 'white' }} />,
-      link: '#',
-    },
-    {
-      name: 'Exchange',
-      icon: <CurrencyExchangeIcon sx={{ color: 'white' }} />,
-      link: '#',
-    },
-    {
-      name: 'Comunity',
-      icon: <DashboardCustomizeOutlinedIcon sx={{ color: 'white' }} />,
-      link: '#',
-    },
-    {
-      name: 'Product',
-      icon: <SplitscreenIcon sx={{ color: 'white' }} />,
-      link: '#',
-    },
-    {
-      name: 'Contact',
-      icon: <DashboardCustomizeOutlinedIcon sx={{ color: 'white' }} />,
-      link: '#',
-    },
-    {
-      name: 'VIEW DEMO CHART',
-      icon: <LineAxisOutlinedIcon sx={{ color: 'white' }} />,
-      link: '/chart',
-      sxCustom: { color: yellow['primary'] },
-    },
-  ]
   return (
-    <Stack spacing={4} alignItems="flex-start" ml={3} mt={3}>
+    <Stack spacing={3} alignItems="flex-start" ml={1} mt={1}>
       {sidebarList.map((item, index) => (
         <CustomLink href={item.link} key={index}>
           <SidebarMenuItem>
