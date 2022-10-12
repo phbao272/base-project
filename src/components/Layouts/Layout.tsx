@@ -1,13 +1,15 @@
 import { Grid, Hidden } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { CustomDrawer, Header, Sidebar, SubHeader } from '@/components/Layouts'
 import { backgroundColor, GridWithBackground } from '@/styles'
-
-import { Header } from './Header'
-import { SubHeader } from './Header/SubHeader'
-import { Sidebar } from './Sidebar'
 export const Layout = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState<boolean>(false)
+  const triggerSidebar = () => {
+    setSidebarOpen(!isSidebarOpen)
+  }
+
   return (
     <Grid
       sx={{ backgroundColor: backgroundColor['main'] }}
@@ -17,7 +19,7 @@ export const Layout = () => {
     >
       {/* Header */}
       <Grid item xs={12}>
-        <Header />
+        <Header triggerSidebar={triggerSidebar} />
       </Grid>
       <Hidden smUp>
         <Grid item xs={12}>
@@ -31,9 +33,12 @@ export const Layout = () => {
           <Sidebar />
         </GridWithBackground>
       </Hidden>
-      {/* <Hidden smUp>
-        <CustomDrawer />
-      </Hidden> */}
+
+      <Hidden smUp>
+        <CustomDrawer open={isSidebarOpen} setOpen={triggerSidebar}>
+          <Sidebar />
+        </CustomDrawer>
+      </Hidden>
 
       {/* Main */}
       <Grid item xs={12} sm={10} pr={{ xs: 1, sm: 6 }}>
