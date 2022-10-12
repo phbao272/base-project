@@ -1,13 +1,13 @@
-import { Box, Grid, Stack, Typography } from '@mui/material'
+import { Grid } from '@mui/material'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { Column } from 'react-table'
 
-import viberateLogo from '@/assets/images/viberate_logo.png'
-import { Card, TextChangePercent } from '@/components'
+import { TextChangePercent } from '@/components'
 import { ReactTableWithToolBar } from '@/components/ReactTable'
 import { numberWithCommas } from '@/libs/utils'
-import { green, imageStyle, strokeColor, WhiteTypograpy } from '@/styles'
+import { TrendingList } from '@/screens/home'
+import { strokeColor } from '@/styles'
 // import viberateLogo from '@/viberate_logo.png'
 
 type ColType = {
@@ -33,27 +33,6 @@ export const Home = () => {
       keepPreviousData: true,
     },
   )
-
-  const trendingList = [
-    {
-      index: 1,
-      name: 'Viberate',
-      code: 'VIB',
-      variable: 0.02,
-    },
-    {
-      index: 2,
-      name: 'Viberate',
-      code: 'VIB',
-      variable: 0.02,
-    },
-    {
-      index: 3,
-      name: 'Viberate',
-      code: 'VIB',
-      variable: 0.02,
-    },
-  ]
 
   const recentlyAddList = [
     {
@@ -147,29 +126,16 @@ export const Home = () => {
         />
       </Grid>
       <Grid item {...grid}>
-        <Card title="Trending">
-          <Stack spacing={2}>
-            {/* start */}
-            {trendingList.map((item, index) => (
-              <Stack key={index} direction="row" justifyContent="space-between">
-                <Stack direction="row" spacing={3}>
-                  <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.index}</WhiteTypograpy>
-                  <Box sx={{ ...imageStyle }} component="img" src={viberateLogo} />
-                  <WhiteTypograpy>{item.name}</WhiteTypograpy>
-                  <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.code}</WhiteTypograpy>
-                </Stack>
-                <Typography color={green['primary']}>{item.variable}</Typography>
-              </Stack>
-            ))}
-            {/* end */}
-          </Stack>
-        </Card>
+        <TrendingList />
       </Grid>
 
       <Grid item {...grid}>
+        <TrendingList />
+      </Grid>
+
+      {/* <Grid item {...grid}>
         <Card title="Trending">
           <Stack spacing={2}>
-            {/* start */}
             {recentlyAddList.map((item, index) => (
               <Stack key={index} direction="row" justifyContent="space-between">
                 <Stack direction="row" spacing={3}>
@@ -181,10 +147,9 @@ export const Home = () => {
                 <Typography color={green['primary']}>{item.variable}</Typography>
               </Stack>
             ))}
-            {/* end */}
           </Stack>
         </Card>
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 }
