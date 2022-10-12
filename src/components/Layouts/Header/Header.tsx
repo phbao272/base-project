@@ -14,7 +14,11 @@ import {
 
 import { Search } from './Search'
 
-export const Header = () => {
+interface HeaderProps {
+  triggerSidebar: () => void
+}
+
+export const Header = ({ triggerSidebar }: HeaderProps) => {
   return (
     <Grid
       container
@@ -82,7 +86,7 @@ export const Header = () => {
       {/* mobile */}
       <Hidden smUp>
         <AlignGrid item xs={2}>
-          <IconButton>
+          <IconButton onClick={triggerSidebar}>
             <MenuIcon sx={{ color: 'white' }} fontSize="large" />
           </IconButton>
         </AlignGrid>
