@@ -1,10 +1,15 @@
 import { Box, BoxProps } from '@mui/material'
 import { BarSeriesOption, DataZoomComponentOption, LineSeriesOption } from 'echarts'
-import { BarChart as EBarChart, LineChart } from 'echarts/charts'
+import { BarChart as EBarChart, CandlestickChart, LineChart } from 'echarts/charts'
 import {
+  AxisPointerComponent,
+  AxisPointerComponentOption,
+  BrushComponent,
+  BrushComponentOption,
   DataZoomComponent,
   GridComponent,
   GridComponentOption,
+  LegendComponent,
   ToolboxComponent,
   TooltipComponent,
   TooltipComponentOption,
@@ -15,6 +20,8 @@ import { use } from 'echarts/core'
 import { LabelLayout } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
 import {
+  CandlestickSeriesOption,
+  LegendComponentOption,
   ToolboxComponentOption,
   TooltipOption,
   VisualMapComponentOption,
@@ -35,6 +42,11 @@ use([
   DataZoomComponent,
   ToolboxComponent,
   VisualMapComponent,
+  LegendComponent,
+  CandlestickChart,
+  AxisPointerComponent,
+  GridComponent,
+  BrushComponent,
 ])
 
 export type data = {
@@ -55,24 +67,27 @@ export type BarLineChartOption = ComposeOption<
   | DataZoomComponentOption
   | ToolboxComponentOption
   | VisualMapComponentOption
+  | LegendComponentOption
+  | CandlestickSeriesOption
+  | AxisPointerComponentOption
+  | GridComponentOption
+  | BrushComponentOption
 >
 
 type BarLineChartProps = BoxProps<'div', CoreChartProps<BarLineChartOption>> & {
   data: data
   isMarketOption?: boolean
-  isCandleChart?: boolean
   isPriceOption?: boolean
 }
 
 const BarLineChart = forwardRef<ECharts, BarLineChartProps>(function Bar(props, ref) {
-  const { data, isMarketOption, isCandleChart, isPriceOption, ...boxProps } = props
+  const { data, isMarketOption, isPriceOption, ...boxProps } = props
 
   const chartRef = useRef<ECharts>(null)
 
   return (
     <Box width="100%" {...boxProps}>
       {isMarketOption && <CoreChart options={MarketChartOption(data)} ref={chartRef} />}
-      {isCandleChart && <CoreChart options={PriceOption(data)} ref={chartRef} />}
       {isPriceOption && <CoreChart options={PriceOption(data)} ref={chartRef} />}
     </Box>
   )
