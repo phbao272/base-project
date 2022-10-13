@@ -9,6 +9,7 @@ interface ReactTableWithToolBarProps<T extends object> extends TableOptions<T> {
   columns: any[]
   title?: string
   sxCustom?: any
+  isLoading: boolean
 }
 
 function ReactTableWithToolBar<T extends object>({
@@ -16,6 +17,7 @@ function ReactTableWithToolBar<T extends object>({
   columns,
   title,
   sxCustom,
+  isLoading,
   ...props
 }: ReactTableWithToolBarProps<T>) {
   return (
@@ -23,6 +25,7 @@ function ReactTableWithToolBar<T extends object>({
       <ReactTable
         columns={columns}
         data={data || []}
+        isLoading={isLoading}
         // handleChangeParams={handleChangeParams}
         // {...paginationData}
       />
