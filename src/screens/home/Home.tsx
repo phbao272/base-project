@@ -15,12 +15,15 @@ type ColType = {
   market_cap_rank: number
   name: string
   current_price: string
-  price_change_percentage_24h: string
+  price_change_percentage_1h_in_currency: string
+  price_change_percentage_24h_in_currency: string
+  price_change_percentage_7d_in_currency: string
   market_cap: string
   circulating_supply: string
 }
 
-const endpoint = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd'
+const endpoint =
+  'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d'
 
 export const Home = () => {
   const [params, setParams] = React.useState({})
@@ -63,11 +66,13 @@ export const Home = () => {
         Header: '#',
         accessor: 'market_cap_rank', // accessor is the "key" in the data
         width: 10,
+        sticky: 'left',
       },
       {
         Header: 'Name',
         accessor: 'name',
         width: 200,
+        sticky: 'left',
       },
       {
         Header: 'Price',
@@ -78,8 +83,22 @@ export const Home = () => {
         },
       },
       {
+        Header: '1h %',
+        accessor: 'price_change_percentage_1h_in_currency',
+        Cell: ({ value }) => {
+          return <TextChangePercent num={value} />
+        },
+      },
+      {
         Header: '24h %',
-        accessor: 'price_change_percentage_24h',
+        accessor: 'price_change_percentage_24h_in_currency',
+        Cell: ({ value }) => {
+          return <TextChangePercent num={value} />
+        },
+      },
+      {
+        Header: '7d %',
+        accessor: 'price_change_percentage_7d_in_currency',
         Cell: ({ value }) => {
           return <TextChangePercent num={value} />
         },
