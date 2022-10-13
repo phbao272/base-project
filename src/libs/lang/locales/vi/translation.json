@@ -1,0 +1,26 @@
+{
+  "sign_in": "Đăng ký",
+  "sign_up": "Đăng nhập",
+  "tracking_list": "Danh sách theo dõi",
+  "name": "Tên",
+  "menu": "Danh sách",
+  "price": "Giá",
+  "market_cap": "Vốn hóa thị trường",
+  "circulating_supply": "lượng cung lưu hành",
+  "filter": "Bộ lọc",
+  "more": "Xem thêm",
+  "trending": "Thinh hành",
+  "of": "Của",
+  "sidebar": {
+    "all_kind_of_currency": "Các loại tiền điện tử",
+    "exchange": "Trao đổi",
+    "comunity": "Cộng đồng",
+    "product": "Sản phẩm",
+    "contact": "Học hỏi",
+    "view_demo_chart": "VIEW DEMO CHART"
+  },
+  "table": {
+    "rows_per_page": "Hiển thị hàng",
+    "page": "Trang"
+  }
+}

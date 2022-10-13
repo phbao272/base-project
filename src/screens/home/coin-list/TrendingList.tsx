@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { toast } from 'react-toast'
 
@@ -15,6 +16,7 @@ interface CoinListResponse {
 }
 
 export const TrendingList = () => {
+  const { t } = useTranslation()
   const [trendingList, setTrendingList] = useState<CoinListProps[]>([])
 
   useQuery<CoinListResponse>([`https://api.coingecko.com/api/v3/search/trending`], {
@@ -28,7 +30,7 @@ export const TrendingList = () => {
   })
 
   return (
-    <Card title="Trending">
+    <Card title={t('trending')}>
       <Stack spacing={2}>
         {trendingList.map((item: CoinListProps, index) => (
           <Stack key={item.item.coin_id} direction="row" justifyContent="space-between">

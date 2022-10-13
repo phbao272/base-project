@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { backgroundColor, blue, BoxFlexCenterSpaceBetween, BoxHeader, strokeColor } from '@/styles'
 
@@ -10,6 +11,7 @@ interface CardProps {
 }
 
 export const Card = ({ title, children, hasMore = true }: CardProps) => {
+  const { t } = useTranslation()
   return (
     <Box
       sx={{
@@ -22,7 +24,7 @@ export const Card = ({ title, children, hasMore = true }: CardProps) => {
     >
       <BoxFlexCenterSpaceBetween>
         <BoxHeader>{title}</BoxHeader>
-        {hasMore && <Typography sx={{ color: blue['primary'] }}>More</Typography>}
+        {hasMore && <Typography sx={{ color: blue['primary'] }}>{t('more')}</Typography>}
       </BoxFlexCenterSpaceBetween>
       {children}
     </Box>

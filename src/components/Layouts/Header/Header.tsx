@@ -2,7 +2,9 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { Avatar, Grid, Hidden, Stack, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
+import { LanguageHeader, Search } from '@/components/Layouts/Header'
 import {
   AlignGrid,
   backgroundColor,
@@ -12,13 +14,12 @@ import {
   yellow,
 } from '@/styles'
 
-import { Search } from './Search'
-
 interface HeaderProps {
   triggerSidebar: () => void
 }
 
 export const Header = ({ triggerSidebar }: HeaderProps) => {
+  const { t } = useTranslation()
   return (
     <Grid
       container
@@ -55,10 +56,10 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
           <Grid item xs={4}>
             <Stack direction="row" justifyContent="space-around">
               <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
-                Tracking List
+                {t('tracking_list')}
               </Typography>
               <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
-                Menu
+                {t('menu')}
               </Typography>
             </Stack>
           </Grid>
@@ -68,11 +69,12 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
           <Grid item xs={4}>
             <Stack direction="row" justifyContent="space-around" alignItems="center">
               <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
-                Sign In
+                {t('sign_in')}
               </Typography>
               <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
-                Sign Up
+                {t('sign_up')}
               </Typography>
+              <LanguageHeader />
               <Avatar
                 sx={{ width: '32px', height: '32px' }}
                 alt="Remy Sharp"
