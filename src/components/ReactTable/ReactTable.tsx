@@ -4,8 +4,7 @@ import { TableOptions, usePagination, useSortBy, useTable } from 'react-table'
 import styled from 'styled-components'
 
 import { ArrowDropDownIcon, ArrowDropUpIcon, FilterOutline } from '@/components'
-import { grey } from '@/styles'
-
+import { backgroundColor, grey } from '@/styles'
 // Pass params
 // pageCount={10}
 // manualPagination={true}
@@ -183,7 +182,7 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
             {headerGroups.map((headerGroup) => {
               return (
                 <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => {
+                  {headerGroup.headers.map((column, index) => {
                     return (
                       <th
                         {...column.getHeaderProps(column.getSortByToggleProps())}
@@ -195,6 +194,7 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
                           textAlign: 'left',
                           cursor: 'pointer',
                           ...column.style,
+                          ...stickyFirstCol(index),
                         }}
                       >
                         {column.render('Header')}
@@ -222,7 +222,7 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
               prepareRow(row)
               return (
                 <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
+                  {row.cells.map((cell, index) => {
                     return (
                       <td
                         {...cell.getCellProps()}
@@ -231,6 +231,7 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
                           minWidth: cell.column.minWidth,
                           width: cell.column.width,
                           ...cell.column.style,
+                          ...stickyFirstCol(index),
                         }}
                       >
                         {cell.render('Cell')}
@@ -269,3 +270,12 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
 }
 
 export { ReactTable }
+
+const stickyFirstCol = (index: number) =>
+  index <= 1 &&
+  ({
+    position: 'sticky',
+    left: index * 38,
+    zIndex: 10,
+    backgroundColor: backgroundColor['primary'],
+  } as React.CSSProperties)
