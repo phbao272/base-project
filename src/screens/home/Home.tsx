@@ -1,5 +1,6 @@
 import { Grid } from '@mui/material'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Column } from 'react-table'
 
@@ -26,6 +27,7 @@ const endpoint =
   'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d'
 
 export const Home = () => {
+  const { t } = useTranslation()
   const [params, setParams] = React.useState({})
 
   // const { paginationData, handleChangeParams, refetch } = usePaginationQuery<any>(endpoint, params)
@@ -69,13 +71,13 @@ export const Home = () => {
         sticky: 'left',
       },
       {
-        Header: 'Name',
+        Header: t('name'),
         accessor: 'name',
         width: 200,
         sticky: 'left',
       },
       {
-        Header: 'Price',
+        Header: t('price'),
         accessor: 'current_price',
         width: 200,
         Cell: ({ value }) => {
@@ -104,14 +106,14 @@ export const Home = () => {
         },
       },
       {
-        Header: 'Market capatialization',
+        Header: t('market_cap'),
         accessor: 'market_cap',
         Cell: ({ value }) => {
           return `$${numberWithCommas(value)}`
         },
       },
       {
-        Header: 'Circulating supply',
+        Header: t('circulating_supply'),
         accessor: 'circulating_supply',
         Cell: ({ value }) => {
           return `$${numberWithCommas(value)}`
@@ -138,6 +140,8 @@ export const Home = () => {
           title="Top các loại tiền điện tử theo khối lượng"
           columns={columns}
           data={data || []}
+          isLoading={isLoading}
+          // isLoading={true}
           // handleChangeParams={handleChangeParams}
           // {...paginationData}
           // pageCount={10}

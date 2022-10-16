@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-key */
 import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { TableOptions, usePagination, useSortBy, useTable } from 'react-table'
 import styled from 'styled-components'
 
 import { ArrowDropDownIcon, ArrowDropUpIcon, FilterOutline } from '@/components'
+import { TableSkeleton } from '@/components/Skeleton'
 import { backgroundColor, grey } from '@/styles'
 // Pass params
 // pageCount={10}
@@ -16,6 +18,7 @@ interface TableProperties<T extends object> extends TableOptions<T> {
   pageCount?: number
   isSuccess?: boolean
   handleChangePagination?: any
+  isLoading?: boolean
 }
 
 const Styles = styled.div`
@@ -77,6 +80,7 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
     columns,
     data,
     loading,
+    isLoading,
     handleChangeParams,
     pageCount: controlledPageCount,
     handleChangePagination,
@@ -119,6 +123,8 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
     state: { pageIndex, pageSize },
   } = instance
 
+  const { t } = useTranslation()
+
   // console.log({ useTableOptions })
 
   // console.log({ pageIndex, pageSize, rows, page, pageOptions, gotoPage, nextPage })
@@ -135,137 +141,148 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
   // }, [handleChangePagination, pageIndex, pageSize])
 
   return (
-    <Styles>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 4 }}>
-        <span style={{ fontWeight: 500, fontSize: '14px', color: '#fff' }}>Hiển thị hàng </span>
-        <select
-          value={pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value))
-          }}
-          style={{
-            padding: 4,
-            height: 29,
-            backgroundColor: grey['primary'],
-            cursor: 'pointer',
-            borderRadius: 8,
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              {pageSize}
-            </option>
-          ))}
-        </select>
-        <span
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: 4,
-            backgroundColor: grey['primary'],
-            fontSize: 14,
-            fontWeight: 'bold',
-            height: 27,
-            gap: 4,
-            cursor: 'pointer',
-            borderRadius: 8,
-          }}
-        >
-          <FilterOutline />
-          Bộ lọc
-        </span>
-      </div>
+    <>
+      {isLoading ? (
+        <TableSkeleton />
+      ) : (
+        <Styles>
+          <div
+            style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 4 }}
+          >
+            <span style={{ fontWeight: 500, fontSize: '14px', color: '#fff' }}>
+              {t('table.rows_per_page')}{' '}
+            </span>
+            <select
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value))
+              }}
+              style={{
+                padding: 4,
+                height: 29,
+                backgroundColor: grey['primary'],
+                cursor: 'pointer',
+                borderRadius: 8,
+              }}
+            >
+              {[10, 20, 30, 40, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  {pageSize}
+                </option>
+              ))}
+            </select>
+            <span
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: 4,
+                backgroundColor: grey['primary'],
+                fontSize: 14,
+                fontWeight: 'bold',
+                height: 27,
+                gap: 4,
+                cursor: 'pointer',
+                borderRadius: 8,
+              }}
+            >
+              <FilterOutline />
+              {t('filter')}
+            </span>
+          </div>
 
-      <div className="tableWrap">
-        <table {...getTableProps()} style={{ borderSpacing: 0 }}>
-          <thead>
-            {headerGroups.map((headerGroup) => {
-              return (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column, index) => {
-                    return (
-                      <th
-                        {...column.getHeaderProps(column.getSortByToggleProps())}
-                        style={{
-                          whiteSpace: 'nowrap',
-                          fontWeight: 'bold',
-                          minWidth: column.minWidth,
-                          width: column.width,
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          ...column.style,
-                          ...stickyFirstCol(index),
-                        }}
-                      >
-                        {column.render('Header')}
-                        <span style={{ position: 'relative', top: '2px' }}>
-                          {column.isSorted ? (
-                            column.isSortedDesc ? (
-                              <ArrowDropDownIcon />
-                            ) : (
-                              <ArrowDropUpIcon />
-                            )
-                          ) : (
-                            ''
-                          )}
-                        </span>
-                      </th>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {/* {rows.map((row) => { */}
-            {page.map((row) => {
-              prepareRow(row)
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell, index) => {
-                    return (
-                      <td
-                        {...cell.getCellProps()}
-                        style={{
-                          padding: '10px',
-                          minWidth: cell.column.minWidth,
-                          width: cell.column.width,
-                          ...cell.column.style,
-                          ...stickyFirstCol(index),
-                        }}
-                      >
-                        {cell.render('Cell')}
-                      </td>
-                    )
-                  })}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
+          <div className="tableWrap">
+            <table {...getTableProps()} style={{ borderSpacing: 0 }}>
+              <thead>
+                {headerGroups.map((headerGroup) => {
+                  return (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                      {headerGroup.headers.map((column, index) => {
+                        return (
+                          <th
+                            {...column.getHeaderProps(column.getSortByToggleProps())}
+                            style={{
+                              whiteSpace: 'nowrap',
+                              fontWeight: 'bold',
+                              minWidth: column.minWidth,
+                              width: column.width,
+                              textAlign: 'left',
+                              cursor: 'pointer',
+                              ...column.style,
+                              ...stickyFirstCol(index),
+                            }}
+                          >
+                            {column.render('Header')}
+                            <span style={{ position: 'relative', top: '2px' }}>
+                              {column.isSorted ? (
+                                column.isSortedDesc ? (
+                                  <ArrowDropDownIcon />
+                                ) : (
+                                  <ArrowDropUpIcon />
+                                )
+                              ) : (
+                                ''
+                              )}
+                            </span>
+                          </th>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+              </thead>
+              <tbody {...getTableBodyProps()}>
+                {/* {rows.map((row) => { */}
+                {page.map((row) => {
+                  prepareRow(row)
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map((cell, index) => {
+                        return (
+                          <td
+                            {...cell.getCellProps()}
+                            style={{
+                              padding: '10px',
+                              minWidth: cell.column.minWidth,
+                              width: cell.column.width,
+                              ...cell.column.style,
+                              ...stickyFirstCol(index),
+                            }}
+                          >
+                            {cell.render('Cell')}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
 
-      <div className="pagination" style={{ textAlign: 'right' }}>
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>{' '}
-        <span style={{ color: '#fff' }}>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
-      </div>
-    </Styles>
+          <div className="pagination" style={{ textAlign: 'right' }}>
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {'<<'}
+            </button>{' '}
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {'<'}
+            </button>{' '}
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              {'>'}
+            </button>{' '}
+            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+              {'>>'}
+            </button>{' '}
+            <span style={{ color: '#fff' }}>
+              {t('table.page')}{' '}
+              <strong>
+                {pageIndex + 1} <span style={{ textTransform: 'lowercase' }}>{t('of')}</span>{' '}
+                {pageOptions.length}
+              </strong>{' '}
+            </span>
+          </div>
+        </Styles>
+      )}
+    </>
   )
 }
 
