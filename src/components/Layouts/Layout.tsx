@@ -2,6 +2,7 @@ import { Grid, Hidden, Stack } from '@mui/material'
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { Footer } from '@/components/Layouts'
 import { CustomDrawer, Header, LanguageHeader, Sidebar, SubHeader } from '@/components/Layouts'
 import { backgroundColor, GridWithBackground } from '@/styles'
 export const Layout = () => {
@@ -46,13 +47,9 @@ export const Layout = () => {
       </Hidden>
 
       {/* Main */}
-      <Grid item xs={12} sm={10} pr={{ xs: 1, sm: 6 }}>
+      <Grid sx={{ minHeight: '100vh' }} item xs={12} sm={10} pr={{ xs: 1, sm: 6 }}>
         <Outlet />
-      </Grid>
-
-      {/* Footer */}
-      <Grid item xs={12}>
-        <div>Footer</div>
+        <Footer />
       </Grid>
     </Grid>
   )
