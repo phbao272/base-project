@@ -1,10 +1,11 @@
 import MenuIcon from '@mui/icons-material/Menu'
-import { Avatar, Grid, Hidden, Stack, Typography } from '@mui/material'
+import { Avatar, Button, Grid, Hidden, Stack, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { LanguageHeader, Search } from '@/components/Layouts/Header'
+import { LoginDialog } from '@/screens/auth/LoginDialog'
 import {
   AlignGrid,
   backgroundColor,
@@ -20,6 +21,13 @@ interface HeaderProps {
 
 export const Header = ({ triggerSidebar }: HeaderProps) => {
   const { t } = useTranslation()
+
+  const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false)
+
+  const handleClose = () => {
+    setOpenLoginDialog(false)
+  }
+
   return (
     <Grid
       container
@@ -68,9 +76,11 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
           </Grid>
           <Grid item xs={4}>
             <Stack direction="row" justifyContent="space-around" alignItems="center">
-              <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
-                {t('sign_in')}
-              </Typography>
+              <Button onClick={() => setOpenLoginDialog(true)}>
+                <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
+                  {t('sign_in')}
+                </Typography>
+              </Button>
               <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
                 {t('sign_up')}
               </Typography>
@@ -119,6 +129,9 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
           />
         </AlignGrid>
       </Hidden>
+
+      {/* Login dialog */}
+      <LoginDialog open={openLoginDialog} handleClose={handleClose} />
     </Grid>
   )
 }
