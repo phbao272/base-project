@@ -1,11 +1,13 @@
 import { Dialog, DialogContent, DialogTitle, Grid, styled } from '@mui/material'
 import { gapi } from 'gapi-script'
+import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import GoogleButton from 'react-google-button'
 import { GoogleLogin } from 'react-google-login'
 
 import { SearchContainer, StyledInputBase } from '@/components'
 import { loginWithGG } from '@/libs/apis'
+import { userAtom } from '@/libs/atoms/authAtom'
 import { backgroundColor, WhiteTypograpy } from '@/styles'
 type LoginDialogProps = {
   open: boolean
@@ -14,15 +16,14 @@ type LoginDialogProps = {
 export const LoginDialog = ({ open, handleClose }: LoginDialogProps) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [user, setUser] = useAtom(userAtom)
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value)
-    console.log('value', e.target.value)
   }
   const onSuccess = async (res: any) => {
-    console.log('data payload', res)
     const login = await loginWithGG('login-with-google', res?.profileObj).then((res) => {
-      //   setUser(res.data.data)
+      setUser(res.data.data)
       localStorage.setItem('user-token', res.data.access_token)
     })
     handleClose()
