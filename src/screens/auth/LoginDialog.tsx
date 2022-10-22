@@ -7,7 +7,7 @@ import { GoogleLogin } from 'react-google-login'
 
 import { SearchContainer, StyledInputBase } from '@/components'
 import { loginWithGG } from '@/libs/apis'
-import { userAtom } from '@/libs/atoms/authAtom'
+import { userAtom, userAtomWithStorage } from '@/libs/atoms/authAtom'
 import { backgroundColor, WhiteTypograpy } from '@/styles'
 type LoginDialogProps = {
   open: boolean
@@ -17,6 +17,7 @@ export const LoginDialog = ({ open, handleClose }: LoginDialogProps) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useAtom(userAtom)
+  const [userStorage, setUserStorage] = useAtom(userAtomWithStorage)
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value)
@@ -26,7 +27,9 @@ export const LoginDialog = ({ open, handleClose }: LoginDialogProps) => {
       setUser(res.data.data)
       localStorage.setItem('user-token', res.data.access_token)
     })
+    setUserStorage(res?.profileObj)
     handleClose()
+    window.location.reload()
     // saveUserLocalStorage(res.profileObj)
   }
   const onFailure = (err: any) => {}

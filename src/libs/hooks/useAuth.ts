@@ -1,10 +1,11 @@
 import { useAtom } from 'jotai'
 
-import { userAtom } from '../atoms/authAtom'
+import { userAtom, userAtomWithStorage } from '../atoms/authAtom'
 
 const useAuth = () => {
   const [user] = useAtom(userAtom)
-  return { user }
+  const [userStorage] = useAtom(userAtomWithStorage)
+  return { user, userStorage }
 }
 
 export { useAuth }
