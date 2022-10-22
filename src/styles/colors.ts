@@ -20,8 +20,15 @@ export const strokeColor = {
 export const backgroundColor = {
   primary: '#191F3A',
   main: '#0C1023',
+  chip: '#252B44',
+  // chipHover: '#2F365F',
+  chipHover: 'red',
 }
 
 export const grey = {
   primary: '#EFF2F5',
+}
+
+export const text = {
+  primary: '#ffffff',
 }
