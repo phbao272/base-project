@@ -1,15 +1,7 @@
 import { Box, Grid, Link as LinkMUI, MenuItem, styled, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 
-import { backgroundColor } from './colors'
-
-export const BoxHeader = styled(Typography)(({ theme }) => ({
-  fontWeight: 700,
-  fontSize: '1.5rem',
-  lineHeight: '29px',
-  color: '#fff',
-  // marginBottom: '24px',
-}))
+import { backgroundColor } from '@/styles'
 
 export const BoxImage = styled(Box)({
   width: 28,
@@ -20,28 +12,6 @@ export const imageStyle = {
   width: 20,
   height: 20,
 }
-
-export const BoxFlexCenterSpaceBetween = styled(Box)({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-})
-
-export const AlignGrid = styled(Grid)({
-  display: 'flex',
-  alignItems: 'center',
-})
-
-export const BoxFlexAlignCenter = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-})
-
-export const BoxFlexCenter = styled(Box)({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-})
 
 export const GridWithBackground = styled(Grid)({
   backgroundColor: backgroundColor['primary'],
@@ -71,6 +41,14 @@ export const CustomLink = styled(Link)({
 export const CustomLinkMUI = styled(LinkMUI)({
   textDecoration: 'none',
   color: '#fff',
+})
+
+export const MenuItemStyled = styled(MenuItem)({
+  minWidth: '150px',
+  backgroundColor: backgroundColor['primary'] + ' !important',
+  color: 'rgba(255, 255, 255, 0.7)',
+  fontSize: '12px',
+  fontWeight: 700,
 })
 
 // export const BoxGreyBorder = styled(Box)({

@@ -27,6 +27,7 @@ export const backgroundColor = {
 
 export const grey = {
   primary: '#EFF2F5',
+  secondary: 'rgba(255, 255, 255, 0.5)',
 }
 
 export const text = {
