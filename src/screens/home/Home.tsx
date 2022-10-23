@@ -60,8 +60,6 @@ export const Home = () => {
     },
   ]
 
-  console.log({ data })
-
   const columns = React.useMemo<Column<ColType>[]>(
     () => [
       {

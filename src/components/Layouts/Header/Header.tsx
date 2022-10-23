@@ -1,11 +1,12 @@
 import MenuIcon from '@mui/icons-material/Menu'
 import { Avatar, Button, Grid, Hidden, Stack, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
+import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { LanguageHeader, Search } from '@/components/Layouts/Header'
-import { useAuth } from '@/libs/hooks/useAuth'
+import { userAtomWithStorage, userProfileImage } from '@/libs/atoms/authAtom'
 import { LoginDialog } from '@/screens/auth/LoginDialog'
 import {
   AlignGrid,
@@ -22,14 +23,23 @@ interface HeaderProps {
 
 export const Header = ({ triggerSidebar }: HeaderProps) => {
   const { t } = useTranslation()
-  const { user, userStorage } = useAuth()
 
+  const [userStorage, setUserStorage] = useAtom(userAtomWithStorage)
+  const [profileImage, setProfileImage] = useAtom(userProfileImage)
+  console.log('profile Image', profileImage)
+  console.log('user storage', userStorage)
   const isLoggined = userStorage ? true : false
 
   const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false)
 
   const handleClose = () => {
     setOpenLoginDialog(false)
+  }
+
+  const handleLogout = () => {
+    console.log('log out')
+    setUserStorage(null)
+    setProfileImage(null)
   }
 
   return (
@@ -80,11 +90,19 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
           </Grid>
           <Grid item xs={4}>
             <Stack direction="row" justifyContent="space-around" alignItems="center">
-              <Button onClick={() => setOpenLoginDialog(true)}>
-                <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
-                  {t('sign_in')}
-                </Typography>
-              </Button>
+              {isLoggined ? (
+                <Button onClick={handleLogout}>
+                  <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
+                    {t('log_out')}
+                  </Typography>
+                </Button>
+              ) : (
+                <Button onClick={() => setOpenLoginDialog(true)}>
+                  <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
+                    {t('sign_in')}
+                  </Typography>
+                </Button>
+              )}
               <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
                 {t('sign_up')}
               </Typography>
@@ -92,7 +110,7 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
               <Avatar
                 sx={{ width: '32px', height: '32px' }}
                 alt="Remy Sharp"
-                src={isLoggined ? userStorage?.imageUrl : '/assets/images/avatar3.webp'}
+                src={isLoggined ? (profileImage as any) : '/assets/images/avatar3.webp'}
               />
             </Stack>
           </Grid>
@@ -129,7 +147,7 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
           <Avatar
             sx={{ width: '32px', height: '32px' }}
             alt="Remy Sharp"
-            src={isLoggined ? userStorage?.image_url : '/assets/images/avatar3.webp'}
+            src={isLoggined ? (profileImage as any) : '/assets/images/avatar3.webp'}
           />
         </AlignGrid>
       </Hidden>

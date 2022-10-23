@@ -4,3 +4,5 @@ export type UserType = {
   id?: number
   imageUrl?: string
 }
+
+export type ProfileImage = string | null

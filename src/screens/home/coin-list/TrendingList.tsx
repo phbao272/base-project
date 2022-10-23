@@ -21,7 +21,6 @@ export const TrendingList = () => {
 
   useQuery<CoinListResponse>([`https://api.coingecko.com/api/v3/search/trending`], {
     onSuccess: (data) => {
-      console.log({ data })
       setTrendingList(data.coins.slice(0, 3))
     },
     onError: (error: any) => {
