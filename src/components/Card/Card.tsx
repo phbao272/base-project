@@ -4,14 +4,15 @@ import { useTranslation } from 'react-i18next'
 
 import { backgroundColor, blue, BoxFlexCenterSpaceBetween, BoxHeader, strokeColor } from '@/styles'
 
-interface CardProps {
-  title: string
+interface ICardProps {
+  title?: string | React.ReactNode
   children: React.ReactNode
   hasMore?: boolean
 }
 
-export const Card = ({ title, children, hasMore = true }: CardProps) => {
+export const Card = ({ title, children, hasMore = true }: ICardProps) => {
   const { t } = useTranslation()
+
   return (
     <Box
       sx={{
@@ -22,10 +23,12 @@ export const Card = ({ title, children, hasMore = true }: CardProps) => {
         overflow: 'hidden',
       }}
     >
-      <BoxFlexCenterSpaceBetween>
-        <BoxHeader>{title}</BoxHeader>
-        {hasMore && <Typography sx={{ color: blue['primary'] }}>{t('more')}</Typography>}
-      </BoxFlexCenterSpaceBetween>
+      {(title || hasMore) && (
+        <BoxFlexCenterSpaceBetween sx={{ marginBottom: '24px' }}>
+          {title && <BoxHeader>{title}</BoxHeader>}
+          {hasMore && <Typography sx={{ color: blue['primary'] }}>{t('more')}</Typography>}
+        </BoxFlexCenterSpaceBetween>
+      )}
       {children}
     </Box>
   )

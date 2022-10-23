@@ -46,7 +46,7 @@ export const Sidebar = () => {
   return (
     <Stack spacing={3} alignItems="flex-start" ml={1} mt={1}>
       {sidebarList.map((item, index) => (
-        <CustomLink href={item.link} key={index}>
+        <CustomLink to={item.link} key={index}>
           <SidebarMenuItem>
             {item.icon}
             <WhiteTypograpy sx={{ ml: 2, ...item?.sxCustom }}>{item.name}</WhiteTypograpy>
