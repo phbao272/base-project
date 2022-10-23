@@ -7,21 +7,20 @@ import { toast } from 'react-toast'
 import { Card } from '@/components'
 import { green, imageStyle, WhiteTypograpy } from '@/styles'
 
-interface CoinListProps {
+interface ICoinListProps {
   item: { coin_id: number; name: string; symbol: string; thumb: string; price_btc: string | number }
 }
 
-interface CoinListResponse {
-  coins: CoinListProps[]
+interface ICoinListResponse {
+  coins: ICoinListProps[]
 }
 
 export const TrendingList = () => {
   const { t } = useTranslation()
-  const [trendingList, setTrendingList] = useState<CoinListProps[]>([])
+  const [trendingList, setTrendingList] = useState<ICoinListProps[]>([])
 
-  useQuery<CoinListResponse>([`https://api.coingecko.com/api/v3/search/trending`], {
+  useQuery<ICoinListResponse>([`https://api.coingecko.com/api/v3/search/trending`], {
     onSuccess: (data) => {
-      console.log({ data })
       setTrendingList(data.coins.slice(0, 3))
     },
     onError: (error: any) => {
@@ -32,7 +31,7 @@ export const TrendingList = () => {
   return (
     <Card title={t('trending')}>
       <Stack spacing={2}>
-        {trendingList.map((item: CoinListProps, index) => (
+        {trendingList.map((item: ICoinListProps, index) => (
           <Stack key={item.item.coin_id} direction="row" justifyContent="space-between">
             <Stack direction="row" spacing={1.5} alignItems="center">
               <WhiteTypograpy sx={{ opacity: 0.5 }}>{index + 1}</WhiteTypograpy>

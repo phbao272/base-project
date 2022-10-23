@@ -8,7 +8,7 @@ import { TextChangePercent } from '@/components'
 import { ReactTableWithToolBar } from '@/components/ReactTable'
 import { numberWithCommas } from '@/libs/utils'
 import { TrendingList } from '@/screens/home'
-import { strokeColor } from '@/styles'
+import { CustomLink, strokeColor } from '@/styles'
 // import viberateLogo from '@/viberate_logo.png'
 
 type ColType = {
@@ -60,7 +60,7 @@ export const Home = () => {
     },
   ]
 
-  console.log({ data })
+  // console.log({ data })
 
   const columns = React.useMemo<Column<ColType>[]>(
     () => [
@@ -75,6 +75,11 @@ export const Home = () => {
         accessor: 'name',
         width: 200,
         sticky: 'left',
+        Cell: ({ row }) => {
+          return (
+            <CustomLink to={`/currencies/${row.original.id || ''}`}>{row.original.name}</CustomLink>
+          )
+        },
       },
       {
         Header: t('price'),
