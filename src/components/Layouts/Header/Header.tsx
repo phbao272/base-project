@@ -1,10 +1,12 @@
 import MenuIcon from '@mui/icons-material/Menu'
-import { Avatar, Grid, Hidden, Stack, Typography } from '@mui/material'
+import { Avatar, Button, Grid, Hidden, Stack, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { LanguageHeader, Search } from '@/components/Layouts/Header'
+import { useAuth } from '@/libs/hooks/useAuth'
+import { LoginDialog } from '@/screens/auth/LoginDialog'
 import {
   AlignGrid,
   backgroundColor,
@@ -21,6 +23,16 @@ interface HeaderProps {
 
 export const Header = ({ triggerSidebar }: HeaderProps) => {
   const { t } = useTranslation()
+  const { user, userStorage } = useAuth()
+
+  const isLoggined = userStorage ? true : false
+
+  const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false)
+
+  const handleClose = () => {
+    setOpenLoginDialog(false)
+  }
+
   return (
     <Grid
       container
@@ -70,9 +82,11 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
           </Grid>
           <Grid item xs={4}>
             <Stack direction="row" justifyContent="space-around" alignItems="center">
-              <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
-                {t('sign_in')}
-              </Typography>
+              <Button onClick={() => setOpenLoginDialog(true)}>
+                <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
+                  {t('sign_in')}
+                </Typography>
+              </Button>
               <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
                 {t('sign_up')}
               </Typography>
@@ -80,7 +94,7 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
               <Avatar
                 sx={{ width: '32px', height: '32px' }}
                 alt="Remy Sharp"
-                src={'/assets/images/avatar3.webp'}
+                src={isLoggined ? userStorage?.imageUrl : '/assets/images/avatar3.webp'}
               />
             </Stack>
           </Grid>
@@ -117,10 +131,13 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
           <Avatar
             sx={{ width: '32px', height: '32px' }}
             alt="Remy Sharp"
-            src={'/assets/images/avatar3.webp'}
+            src={isLoggined ? userStorage?.image_url : '/assets/images/avatar3.webp'}
           />
         </AlignGrid>
       </Hidden>
+
+      {/* Login dialog */}
+      <LoginDialog open={openLoginDialog} handleClose={handleClose} />
     </Grid>
   )
 }

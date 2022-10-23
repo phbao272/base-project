@@ -1,6 +1,8 @@
 import { Box } from '@mui/material'
 import React, { useState } from 'react'
 
+import { useAuth } from '@/libs/hooks/useAuth'
+
 import { TabPanel, TabsStyled, TabStyled } from '../Tabs'
 import { BarLineChart } from './component/BarLineChart'
 import { CandleChart } from './component/CandleChart'
@@ -48,6 +50,7 @@ const ChartCoint = () => {
     dataY: DataY,
   }
   const [tab, setTab] = useState<Tab>(Tab.Price)
+  const { user } = useAuth()
 
   return (
     <Box>

@@ -5,7 +5,7 @@ import { InputBase } from '@mui/material'
 import { alpha, styled } from '@mui/material/styles'
 import React, { useRef, useState } from 'react'
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
@@ -18,7 +18,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }))
-const SearchContainer = styled('div')(({ theme }) => ({
+export const SearchContainer = styled('div')(({ theme }) => ({
   zIndex: 10,
   height: '40px',
   position: 'relative',
