@@ -26,8 +26,6 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
 
   const [userStorage, setUserStorage] = useAtom(userAtomWithStorage)
   const [profileImage, setProfileImage] = useAtom(userProfileImage)
-  console.log('profile Image', profileImage)
-  console.log('user storage', userStorage)
   const isLoggined = userStorage ? true : false
 
   const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false)
@@ -37,7 +35,6 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
   }
 
   const handleLogout = () => {
-    console.log('log out')
     setUserStorage(null)
     setProfileImage(null)
   }
