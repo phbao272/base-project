@@ -1,2 +1,4 @@
+export * from './auth'
+export * from './coin-detail'
 export * from './home'
-export * from './not_found'
+export * from './not-found'

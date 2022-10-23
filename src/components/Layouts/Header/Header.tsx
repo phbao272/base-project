@@ -10,6 +10,7 @@ import { LoginDialog } from '@/screens/auth/LoginDialog'
 import {
   AlignGrid,
   backgroundColor,
+  CustomLink,
   responsiveTextStyle,
   strokeColor,
   whiteColorStyle,
@@ -45,23 +46,24 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
       {/* desktop */}
       <Hidden smDown>
         <AlignGrid item xs={2} sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: yellow['primary'],
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+          <CustomLink to="/">
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: yellow['primary'],
+                textDecoration: 'none',
+              }}
+            >
+              LOGO
+            </Typography>
+          </CustomLink>
         </AlignGrid>
 
         <AlignGrid item container xs={10}>

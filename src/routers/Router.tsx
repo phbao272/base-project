@@ -3,8 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import { ChartCoint } from '@/components/Charts/ChartCoint'
 import { Layout } from '@/components/Layouts'
-import { Home, NotFound } from '@/screens'
-import { Login } from '@/screens/auth'
+import { Coin, Home, Login, NotFound } from '@/screens'
 
 export const Router = () => {
   return (
@@ -13,6 +12,7 @@ export const Router = () => {
 
       <Route path="/" element={<Layout />}>
         <Route path="/chart" element={<ChartCoint />} />
+        <Route path="/currencies/:coin_id" element={<Coin />} />
         <Route index element={<Home />} />
       </Route>
       <Route path="*" element={<NotFound />} />
