@@ -23,6 +23,12 @@
   "tag": "Thẻ",
   "audits": "Kiểm toán",
   "volume": "Khối lượng",
+  "cancel": "Huỷ bỏ",
+  "post": "Đăng",
+  "submit": "Submit",
+  "reply": "Phản hồi",
+  "bullish": "Tăng",
+  "bearish": "Giảm",
   "sidebar": {
     "all_kind_of_currency": "Các loại tiền điện tử",
     "exchange": "Trao đổi",

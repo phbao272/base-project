@@ -23,6 +23,12 @@
   "tag": "Tag",
   "audits": "Audits",
   "volume": "Volume",
+  "post": "Post",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "reply": "Reply",
+  "bullish": "Bullish",
+  "bearish": "Bearish",
   "sidebar": {
     "all_kind_of_currency": "All kind of currency",
     "exchange": "Exchange",
