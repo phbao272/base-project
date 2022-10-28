@@ -9,6 +9,8 @@ import { ReactTableWithToolBar } from '@/components/ReactTable'
 import { numberWithCommas } from '@/libs/utils'
 import { TrendingList } from '@/screens/home'
 import { CustomLink, strokeColor } from '@/styles'
+
+import { CoinGraph } from './coinGraph/CoinGraph'
 // import viberateLogo from '@/viberate_logo.png'
 
 type ColType = {
@@ -25,6 +27,14 @@ type ColType = {
 
 const endpoint =
   'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d'
+
+export const DataX = new Array(498).fill('10:15 AM')
+
+export const DataY = {
+  price: new Array(498).fill(4000),
+  volume: [],
+}
+const dataChart = { dataX: DataX, dataY: DataY }
 
 export const Home = () => {
   const { t } = useTranslation()
@@ -160,24 +170,18 @@ export const Home = () => {
       <Grid item {...grid}>
         <TrendingList />
       </Grid>
-
-      {/* <Grid item {...grid}>
-        <Card title="Trending">
-          <Stack spacing={2}>
-            {recentlyAddList.map((item, index) => (
-              <Stack key={index} direction="row" justifyContent="space-between">
-                <Stack direction="row" spacing={3}>
-                  <WhiteTypograpy>{item.index}</WhiteTypograpy>
-                  <Box sx={{ ...imageStyle }} component="img" src={viberateLogo} />
-                  <WhiteTypograpy>{item.name}</WhiteTypograpy>
-                  <WhiteTypograpy sx={{ opacity: 0.5 }}>{item.code}</WhiteTypograpy>
-                </Stack>
-                <Typography color={green['primary']}>{item.variable}</Typography>
-              </Stack>
-            ))}
-          </Stack>
-        </Card>
-      </Grid> */}
+      <Grid item {...grid}>
+        <CoinGraph idCoin="25W7FG7om" />
+      </Grid>
+      <Grid item {...grid}>
+        <CoinGraph idCoin="VINVMYf0u" />
+      </Grid>
+      <Grid item {...grid}>
+        <CoinGraph idCoin="razxDUgYGNAdQ" />
+      </Grid>
+      <Grid item {...grid}>
+        <CoinGraph idCoin="Qwsogvtv82FCd" />
+      </Grid>
     </Grid>
   )
 }
