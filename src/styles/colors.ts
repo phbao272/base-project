@@ -23,6 +23,7 @@ export const backgroundColor = {
   chip: '#252B44',
   // chipHover: '#2F365F',
   chipHover: 'red',
+  post: '#222531',
 }
 
 export const grey = {

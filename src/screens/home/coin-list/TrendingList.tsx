@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 import { Card } from '@/components'
 import { green, imageStyle, WhiteTypograpy } from '@/styles'

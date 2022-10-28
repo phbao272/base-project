@@ -50,7 +50,7 @@ const ChartCoint = () => {
     dataY: DataY,
   }
   const [tab, setTab] = useState<Tab>(Tab.Price)
-  const { user } = useAuth()
+  const { userStorage } = useAuth()
 
   return (
     <Box>

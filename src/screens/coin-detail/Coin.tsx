@@ -9,6 +9,7 @@ import { ICoin, IDescription } from '@/libs/types'
 
 import { CardCoinLeft } from './CardCoinLeft'
 import { CardCoinRight } from './CardCoinRight'
+import { CoinPost } from './CoinPost'
 
 export const Coin = () => {
   const { t } = useTranslation()
@@ -46,6 +47,7 @@ export const Coin = () => {
           coin?.description[language as keyof IDescription] || (coin?.description?.en as string)
         }
       />
+      {coin_id && <CoinPost coin_id={coin_id} />}
     </>
   )
 }
