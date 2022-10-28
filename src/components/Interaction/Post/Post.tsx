@@ -13,6 +13,7 @@ import { queryClient } from '@/libs/react-query'
 import { request } from '@/libs/request'
 import { IPost, UserType } from '@/libs/types'
 import { formatTimeDiff } from '@/libs/utils'
+import { LoginDialog } from '@/screens/auth'
 import { AlignGrid, green, grey, red } from '@/styles'
 
 import { Text } from '../styled'
@@ -47,6 +48,11 @@ export const Post: React.FC<IPostProps> = ({
   }, [count_comment])
 
   const handleLike = async () => {
+    if (!userStorage) {
+      handleOpenDialog()
+      return
+    }
+
     try {
       const res = await request.post(`like/like`, {
         post_id,
@@ -82,71 +88,85 @@ export const Post: React.FC<IPostProps> = ({
     setIsShowComment(!isShowComment)
   }
 
+  const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false)
+
+  const handleCloseDialog = () => {
+    setOpenLoginDialog(false)
+  }
+
+  const handleOpenDialog = () => {
+    setOpenLoginDialog(true)
+  }
+
   return (
-    <Stack>
-      <AlignGrid gap="32px" mb="12px">
-        <InforUser
-          user_name={user.name || ''}
-          user_avatar={user?.avatar_url || ''}
-          time={formatTimeDiff(props.updated_at)}
-        />
-        {tag != null && (
-          <BoxTag
-            startIcon={
-              tag === TAG_POST['BULLISH'] ? (
-                <BsCaretUpFill size="14px" />
-              ) : (
-                <BsCaretDownFill size="14px" />
-              )
-            }
-            tag={tag}
+    <>
+      <Stack>
+        <AlignGrid gap="32px" mb="12px">
+          <InforUser
+            user_name={user.name || ''}
+            user_avatar={user?.avatar_url || ''}
+            time={formatTimeDiff(props.updated_at)}
           />
-        )}
-      </AlignGrid>
-      <Typography>{content}</Typography>
-
-      <AlignGrid gap="12px" mt="8px" ml="24px">
-        <AlignGrid
-          gap="6px"
-          onClick={handleToggleListComment}
-          sx={{
-            cursor: 'pointer',
-          }}
-        >
-          <BsFillChatRightTextFill color={grey['secondary']} size="12px" />
-          {countComment ? <Text>{countComment}</Text> : null}
+          {tag != null && (
+            <BoxTag
+              startIcon={
+                tag === TAG_POST['BULLISH'] ? (
+                  <BsCaretUpFill size="14px" />
+                ) : (
+                  <BsCaretDownFill size="14px" />
+                )
+              }
+              tag={tag}
+            />
+          )}
         </AlignGrid>
+        <Typography>{content}</Typography>
 
-        <AlignGrid gap="4px" sx={{ cursor: 'pointer' }} onClick={handleLike}>
-          <BiLike color={likeActive ? '#3490dc' : grey['secondary']} />
-          {countLike ? <Text>{countLike}</Text> : null}
-        </AlignGrid>
+        <AlignGrid gap="12px" mt="8px" ml="24px">
+          <AlignGrid
+            gap="6px"
+            onClick={handleToggleListComment}
+            sx={{
+              cursor: 'pointer',
+            }}
+          >
+            <BsFillChatRightTextFill color={grey['secondary']} size="12px" />
+            {countComment ? <Text>{countComment}</Text> : null}
+          </AlignGrid>
 
-        {/* <AlignGrid gap="4px" sx={{ cursor: 'pointer' }} onClick={handleDislike}>
+          <AlignGrid gap="4px" sx={{ cursor: 'pointer' }} onClick={handleLike}>
+            <BiLike color={likeActive ? '#3490dc' : grey['secondary']} />
+            {countLike ? <Text>{countLike}</Text> : null}
+          </AlignGrid>
+
+          {/* <AlignGrid gap="4px" sx={{ cursor: 'pointer' }} onClick={handleDislike}>
           <BiDislike color={dislikeActive ? '#3490dc' : grey['secondary']} />
           <Text>{dislike && `(${dislike})`}</Text>
         </AlignGrid> */}
 
-        {userStorage?.id === user_id ? (
-          <AlignGrid gap="4px" sx={{ cursor: 'pointer' }} onClick={handleDelete}>
-            <BiTrash color={grey['secondary']} />
-          </AlignGrid>
-        ) : null}
+          {userStorage?.id === user_id ? (
+            <AlignGrid gap="4px" sx={{ cursor: 'pointer' }} onClick={handleDelete}>
+              <BiTrash color={grey['secondary']} />
+            </AlignGrid>
+          ) : null}
 
-        {/* {userStorage?.id === user_id ? (
+          {/* {userStorage?.id === user_id ? (
           <AlignGrid gap="4px" sx={{ cursor: 'pointer' }} onClick={handleEditPost}>
             <BiEdit />
             <Text>{t('edit')}</Text>
           </AlignGrid>
         ) : null} */}
-      </AlignGrid>
+        </AlignGrid>
 
-      {isShowComment && (
-        <Box sx={{ marginLeft: '24px' }}>
-          <ListComment post_id={post_id} coin_id={coin_id} user_name={user.name as string} />
-        </Box>
-      )}
-    </Stack>
+        {isShowComment && (
+          <Box sx={{ marginLeft: '24px' }}>
+            <ListComment post_id={post_id} coin_id={coin_id} user_name={user.name as string} />
+          </Box>
+        )}
+      </Stack>
+
+      <LoginDialog open={openLoginDialog} handleClose={handleCloseDialog} />
+    </>
   )
 }
 

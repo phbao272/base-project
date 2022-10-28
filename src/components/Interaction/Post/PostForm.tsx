@@ -11,6 +11,7 @@ import { TAG_POST } from '@/constants'
 import { useAuth } from '@/libs/hooks'
 import { queryClient } from '@/libs/react-query'
 import { request } from '@/libs/request'
+import { LoginDialog } from '@/screens/auth'
 import {
   backgroundColor,
   BoxFlexCenter,
@@ -37,7 +38,15 @@ export const PostForm: React.FC<IPostForm> = ({ coin_id }) => {
   }
 
   const handleSubmit = async () => {
-    console.log('submit')
+    if (!userStorage) {
+      handleOpenDialog()
+      return
+    }
+
+    if (text.trim().length === 0) {
+      toast.error(t('Please enter your post'))
+      return
+    }
 
     try {
       const res = await request.post('/post', {
@@ -64,66 +73,82 @@ export const PostForm: React.FC<IPostForm> = ({ coin_id }) => {
     setTagPost(tag)
   }
 
+  const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false)
+
+  const handleCloseDialog = () => {
+    setOpenLoginDialog(false)
+  }
+
+  const handleOpenDialog = () => {
+    setOpenLoginDialog(true)
+  }
+
   return (
-    <Stack sx={{ backgroundColor: backgroundColor['post'], padding: '20px', borderRadius: '8px' }}>
-      <BoxFlexCenterSpaceBetween>
-        <InforUser user_name={userStorage?.name || ''} user_avatar={userAvatar || ''} />
-        <BoxFlexCenter gap="12px">
+    <>
+      <Stack
+        sx={{ backgroundColor: backgroundColor['post'], padding: '20px', borderRadius: '8px' }}
+      >
+        <BoxFlexCenterSpaceBetween>
+          <InforUser user_name={userStorage?.name || ''} user_avatar={userAvatar || ''} />
+          <BoxFlexCenter gap="12px">
+            <Button
+              startIcon={<BsCaretUpFill size="14px" />}
+              variant={tagPost === TAG_POST['BULLISH'] ? 'contained' : 'outlined'}
+              size="small"
+              color="success"
+              sx={{ textTransform: 'capitalize' }}
+              onClick={() =>
+                hanleEditTag(
+                  tagPost === TAG_POST['BULLISH'] ? TAG_POST['UNSET'] : TAG_POST['BULLISH'],
+                )
+              }
+            >
+              {t('bullish')}
+            </Button>
+            <Button
+              startIcon={<BsCaretDownFill size="14px" />}
+              variant={tagPost === TAG_POST['BEARISH'] ? 'contained' : 'outlined'}
+              size="small"
+              color="error"
+              sx={{ textTransform: 'capitalize' }}
+              onClick={() =>
+                hanleEditTag(
+                  tagPost === TAG_POST['BEARISH'] ? TAG_POST['UNSET'] : TAG_POST['BEARISH'],
+                )
+              }
+            >
+              {t('bearish')}
+            </Button>
+          </BoxFlexCenter>
+        </BoxFlexCenterSpaceBetween>
+        <input
+          style={{
+            padding: '20px',
+            border: 'none',
+            outline: 'none',
+            borderRadius: '8px',
+            marginTop: '16px',
+            width: '100%',
+            backgroundColor: '#323546',
+            color: textColor['primary'],
+          }}
+          onChange={handleTextChange}
+          value={text}
+          placeholder="Write your review of Bitcoin"
+        />
+        <Box sx={{ textAlign: 'right' }}>
           <Button
-            startIcon={<BsCaretUpFill size="14px" />}
-            variant={tagPost === TAG_POST['BULLISH'] ? 'contained' : 'outlined'}
-            size="small"
-            color="success"
-            sx={{ textTransform: 'capitalize' }}
-            onClick={() =>
-              hanleEditTag(
-                tagPost === TAG_POST['BULLISH'] ? TAG_POST['UNSET'] : TAG_POST['BULLISH'],
-              )
-            }
+            variant="contained"
+            sx={{ width: 'max-content', marginTop: '12px' }}
+            onClick={handleSubmit}
+            size={isMobile ? 'small' : 'medium'}
           >
-            {t('bullish')}
+            {t('post')}
           </Button>
-          <Button
-            startIcon={<BsCaretDownFill size="14px" />}
-            variant={tagPost === TAG_POST['BEARISH'] ? 'contained' : 'outlined'}
-            size="small"
-            color="error"
-            sx={{ textTransform: 'capitalize' }}
-            onClick={() =>
-              hanleEditTag(
-                tagPost === TAG_POST['BEARISH'] ? TAG_POST['UNSET'] : TAG_POST['BEARISH'],
-              )
-            }
-          >
-            {t('bearish')}
-          </Button>
-        </BoxFlexCenter>
-      </BoxFlexCenterSpaceBetween>
-      <input
-        style={{
-          padding: '20px',
-          border: 'none',
-          outline: 'none',
-          borderRadius: '8px',
-          marginTop: '16px',
-          width: '100%',
-          backgroundColor: '#323546',
-          color: textColor['primary'],
-        }}
-        onChange={handleTextChange}
-        value={text}
-        placeholder="Write your review of Bitcoin"
-      />
-      <Box sx={{ textAlign: 'right' }}>
-        <Button
-          variant="contained"
-          sx={{ width: 'max-content', marginTop: '12px' }}
-          onClick={handleSubmit}
-          size={isMobile ? 'small' : 'medium'}
-        >
-          {t('post')}
-        </Button>
-      </Box>
-    </Stack>
+        </Box>
+      </Stack>
+
+      <LoginDialog open={openLoginDialog} handleClose={handleCloseDialog} />
+    </>
   )
 }
