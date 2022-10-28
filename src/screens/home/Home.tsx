@@ -11,6 +11,7 @@ import { TrendingList } from '@/screens/home'
 import { CustomLink, strokeColor } from '@/styles'
 
 import { CoinGraph } from './coinGraph/CoinGraph'
+
 // import viberateLogo from '@/viberate_logo.png'
 
 type ColType = {
