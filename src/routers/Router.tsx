@@ -11,9 +11,8 @@ export const Router = () => {
       <Route path="/login" element={<Login />} />
 
       <Route path="/" element={<Layout />}>
-        <Route path="/chart" element={<ChartCoin />} />
         <Route path="/currencies/:coin_id" element={<Coin />} />
-        <Route path="/chart" element={<ChartCoin />} />
+        <Route path="/chart" element={<ChartCoin idCoin="Qwsogvtv82FCd" />} />
         <Route index element={<Home />} />
       </Route>
       <Route path="*" element={<NotFound />} />

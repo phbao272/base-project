@@ -2,9 +2,10 @@ import { Box, Button, Stack } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
-import { baseUrl, cryptoApiHeaders, optionTimeFilter } from '@/constants'
+import { baseUrl, cryptoApiHeaders, defaultReferenceCurrency, optionTimeFilter } from '@/constants'
 import { CoinDataType, PriceChartDataResponseType, ServerResponseType } from '@/libs/types/apiChart'
 
+import { ChartSkeleton } from '../Skeleton/ChartSkeleton'
 import { TabPanel, TabsStyled, TabStyled } from '../Tabs'
 import { BarLineChart, dataChartType } from './component/BarLineChart'
 import { CandleChart } from './component/CandleChart'
@@ -30,8 +31,6 @@ export const DataY = {
   four: new Array(498).fill(0).map(() => Math.floor(Math.random() * (69 - 40 + 1)) + 40),
 }
 
-const bitcoinId = 'yhjMzLPhuIDl'
-
 export const defaultPriceData = {
   dataX: [],
   dataY: {
@@ -39,15 +38,18 @@ export const defaultPriceData = {
     volume: [],
   },
 }
+export type ChartCoinProps = {
+  idCoin: string
+}
 
-const ChartCoin: React.FC = () => {
+const ChartCoin: React.FC<ChartCoinProps> = ({ idCoin }) => {
   const [tab, setTab] = useState<Tab>(Tab.Price)
   const [priceData, setPriceData] = useState<dataChartType>(defaultPriceData)
   const [timeOption, setTimeOption] = useState('7d')
   const { isSuccess: isCoinDataSuccess, refetch } = useQuery<ServerResponseType<CoinDataType>>(
     [
-      `${baseUrl}/coin/Qwsogvtv82FCd`,
-      { referenceCurrencyUuid: bitcoinId, timePeriod: timeOption },
+      `${baseUrl}/coin/${idCoin}`,
+      { referenceCurrencyUuid: defaultReferenceCurrency, timePeriod: timeOption },
       {
         headers: cryptoApiHeaders,
       },
@@ -69,8 +71,8 @@ const ChartCoin: React.FC = () => {
     ServerResponseType<PriceChartDataResponseType>
   >(
     [
-      `${baseUrl}/coin/Qwsogvtv82FCd/history`,
-      { referenceCurrencyUuid: bitcoinId, timePeriod: timeOption },
+      `${baseUrl}/coin/${idCoin}/history`,
+      { referenceCurrencyUuid: defaultReferenceCurrency, timePeriod: timeOption },
       {
         headers: cryptoApiHeaders,
       },
@@ -119,7 +121,7 @@ const ChartCoin: React.FC = () => {
       </TabPanel>
     </Box>
   ) : (
-    <></>
+    <ChartSkeleton col_number={12} row_number={8} />
   )
 }
 

@@ -3,6 +3,7 @@ import { Box, Stack } from '@mui/system'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 
+import { TableSkeleton } from '@/components'
 import { defaultPriceData } from '@/components/Charts/ChartCoin'
 import { BarLineChart, dataChartType } from '@/components/Charts/component/BarLineChart'
 import { parseDataChart } from '@/components/Charts/component/parseDataChart'
@@ -17,7 +18,7 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin }) => {
   const [priceData, setPriceData] = useState<dataChartType>(defaultPriceData)
   const [coinData, setCoinData] = useState<CoinDataType | null>(null)
 
-  const { isSuccess: isPriceResponseSuccess } = useQuery<
+  const { isFetching: isPriceResponseLoading } = useQuery<
     ServerResponseType<PriceChartDataResponseType>
   >(
     [
@@ -35,7 +36,7 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin }) => {
     },
   )
 
-  const { isSuccess: isCoinDataSuccess } = useQuery<ServerResponseType<CoinDataType>>(
+  const { isFetching: isCoinDataLoading } = useQuery<ServerResponseType<CoinDataType>>(
     [
       `${baseUrl}/coin/${idCoin}`,
       { referenceCurrencyUuid: defaultReferenceCurrency, timePeriod: '24h' },
@@ -50,7 +51,7 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin }) => {
     },
   )
 
-  return isCoinDataSuccess && isPriceResponseSuccess ? (
+  return !isCoinDataLoading && !isPriceResponseLoading ? (
     <Stack height={280} border="1px solid white" borderRadius={1}>
       <Stack
         direction="row"
@@ -86,7 +87,7 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin }) => {
       </Box>
     </Stack>
   ) : (
-    <></>
+    <TableSkeleton col_number={4} row_number={5} />
   )
 }
 
