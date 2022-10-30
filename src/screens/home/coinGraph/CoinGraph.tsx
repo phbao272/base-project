@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 import { Box, Stack } from '@mui/system'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { TableSkeleton } from '@/components'
@@ -18,7 +18,7 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin }) => {
   const [priceData, setPriceData] = useState<dataChartType>(defaultPriceData)
   const [coinData, setCoinData] = useState<CoinDataType | null>(null)
 
-  const { isFetching: isPriceResponseLoading } = useQuery<
+  const { isFetching: isPriceResponseLoading, refetch } = useQuery<
     ServerResponseType<PriceChartDataResponseType>
   >(
     [
@@ -36,7 +36,9 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin }) => {
     },
   )
 
-  const { isFetching: isCoinDataLoading } = useQuery<ServerResponseType<CoinDataType>>(
+  const { isFetching: isCoinDataLoading, refetch: refetchCoin } = useQuery<
+    ServerResponseType<CoinDataType>
+  >(
     [
       `${baseUrl}/coin/${idCoin}`,
       { referenceCurrencyUuid: defaultReferenceCurrency, timePeriod: '24h' },
@@ -50,6 +52,11 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin }) => {
       },
     },
   )
+
+  useEffect(() => {
+    refetch()
+    refetchCoin()
+  }, [])
 
   return !isCoinDataLoading && !isPriceResponseLoading ? (
     <Stack height={280} border="1px solid white" borderRadius={1}>

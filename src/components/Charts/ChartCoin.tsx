@@ -24,13 +24,6 @@ export type priceChartParseData = {
   }
 }
 
-export const DataX = new Array(498).fill('10:15 AM')
-
-export const DataY = {
-  two: new Array(498).fill(4000),
-  four: new Array(498).fill(0).map(() => Math.floor(Math.random() * (69 - 40 + 1)) + 40),
-}
-
 export const defaultPriceData = {
   dataX: [],
   dataY: {
@@ -121,7 +114,7 @@ const ChartCoin: React.FC<ChartCoinProps> = ({ idCoin }) => {
       </TabPanel>
     </Box>
   ) : (
-    <ChartSkeleton col_number={12} row_number={8} />
+    <ChartSkeleton />
   )
 }
 
