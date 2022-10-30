@@ -7,38 +7,49 @@ import {
 } from 'echarts/types/dist/shared'
 import ReactDOMServer from 'react-dom/server'
 
-import { BarLineChartOption, data } from './BarLineChart'
+import { BarLineChartOption, dataChartType } from './BarLineChart'
 
 function Tooltip(props: any) {
   return (
-    <Box style={{ width: 200, height: 120, borderRadius: 20 }}>
+    <Box style={{ width: 230, height: 120, borderRadius: 20 }}>
       <Stack direction="row" justifyContent="space-around" mt={2}>
-        <Typography>19/9/2021</Typography>
+        {/* <Typography>{props[1].name}</Typography> */}
         <Typography>{props[0].name}</Typography>
       </Stack>
       <Stack direction="row" alignItems="center" mt={2}>
         <Box
           sx={{ borderRadius: '100%', width: '15px', height: '15px', background: 'green', ml: 2 }}
         ></Box>
-        <Typography ml={1}>Price: </Typography>
-        <Typography fontWeight={700}>${props[0].value}</Typography>
+        <Typography ml={1}>MarketCap: </Typography>
+        <Typography fontWeight={700}>${props[0].value.toFixed(4)}</Typography>
       </Stack>
       <Stack direction="row" alignItems="center" mt={1}>
         <Box
           sx={{ borderRadius: '100%', width: '15px', height: '15px', background: 'green', ml: 2 }}
         ></Box>
-        <Typography ml={1}>Volume: </Typography>
-        <Typography fontWeight={700}>${props[1].value}B</Typography>
+        <Typography ml={1}>Sparkline: </Typography>
+        <Typography fontWeight={700}>${props[1].value.toFixed(4)}</Typography>
       </Stack>
     </Box>
   )
 }
 
-const MarketChartOption = (data: data) => {
-  const dataMax = Math.max(...data.dataY.two)
+const MarketChartOption = (data: dataChartType) => {
+  const dataMax = Math.max(...data.dataY.volume)
   const arrayTemp = new Array(dataMax.toString().length).fill(0)
   arrayTemp.unshift(5)
-  let roundingNumber = Number(arrayTemp.join(''))
+  let roundingNumber = dataMax * 10
+  console.log(data.dataX)
+
+  // const dataPriceMax = Math.max(...data.dataY.price)
+  // const dataPriceMin = Math.min(...data.dataY.price)
+  // const arrayPriceTemp = new Array(dataPriceMax.toString().length).fill(0)
+  // arrayPriceTemp.unshift()
+  // let roundingPriceNumber = Number(arrayTemp.join(''))
+  // while (dataPriceMax < roundingPriceNumber / 2) {
+  //   roundingPriceNumber /= 2
+  // }
+  // console.log(roundingNumber)
 
   const option: BarLineChartOption = {
     tooltip: {
@@ -84,11 +95,7 @@ const MarketChartOption = (data: data) => {
     yAxis: [
       {
         type: 'value',
-
         axisLabel: {
-          formatter: (value: number) => {
-            return value + 'k'
-          },
           color: 'grey',
           fontSize: 14,
         },
@@ -120,7 +127,7 @@ const MarketChartOption = (data: data) => {
       },
       {
         type: 'value',
-        show: false,
+        show: true,
         max: roundingNumber,
         interval: roundingNumber / 10,
         axisLabel: {
@@ -165,34 +172,33 @@ const MarketChartOption = (data: data) => {
         end: 100,
       },
     ],
-
+    visualMap: {
+      top: 2000,
+      right: 10,
+    },
     series: [
       {
         name: 'Price',
         type: 'line',
         symbolSize: 10,
-
         lineStyle: {
           width: 2,
+          color: 'blue',
         },
         emphasis: {
           focus: 'series',
         },
         smooth: false,
         symbol: 'none',
-        data: data.dataY.four,
+        stack: 'confidence-band',
+        data: data.dataY.price,
       },
       {
         name: 'Volume',
         type: 'bar',
         yAxisIndex: 1,
-        itemStyle: {
-          borderRadius: [2, 2, 0, 0],
-        },
-        emphasis: {
-          focus: 'series',
-        },
-        data: data.dataY.two,
+
+        data: data.dataY.volume,
       },
     ],
   }

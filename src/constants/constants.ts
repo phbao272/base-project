@@ -11,3 +11,10 @@ export const TAG_POST = {
   BEARISH: 1,
   UNSET: 2,
 }
+export const cryptoApiHeaders = {
+  'x-rapidapi-host': 'coinranking1.p.rapidapi.com',
+  'x-rapidapi-key': '04de44fc83msh46cb01efcfaa973p1fba02jsndd85800cb112',
+}
+export const baseUrl = 'https://coinranking1.p.rapidapi.com'
+export const optionTimeFilter = ['24h', '3h', '7d', '30d', '3m', '1y']
+export const defaultReferenceCurrency = 'yhjMzLPhuIDl'

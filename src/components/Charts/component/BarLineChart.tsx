@@ -29,6 +29,7 @@ import {
 import { forwardRef, useRef } from 'react'
 
 import { CoreChart, CoreChartProps } from './Core'
+import { LineGraphOption } from './LineGraphOption'
 import { MarketChartOption } from './MarketChartOption'
 import { PriceOption } from './PriceOption'
 
@@ -49,12 +50,11 @@ use([
   BrushComponent,
 ])
 
-export type data = {
-  year: string
+export type dataChartType = {
   dataX: string[]
   dataY: {
-    two: number[]
-    four: number[]
+    price: number[]
+    volume: number[]
   }
 }
 
@@ -75,13 +75,14 @@ export type BarLineChartOption = ComposeOption<
 >
 
 type BarLineChartProps = BoxProps<'div', CoreChartProps<BarLineChartOption>> & {
-  data: data
+  data: dataChartType
   isMarketOption?: boolean
   isPriceOption?: boolean
+  isLineGraph?: boolean
 }
 
 const BarLineChart = forwardRef<ECharts, BarLineChartProps>(function Bar(props, ref) {
-  const { data, isMarketOption, isPriceOption, ...boxProps } = props
+  const { data, isMarketOption, isPriceOption, isLineGraph, ...boxProps } = props
 
   const chartRef = useRef<ECharts>(null)
 
@@ -89,6 +90,7 @@ const BarLineChart = forwardRef<ECharts, BarLineChartProps>(function Bar(props, 
     <Box width="100%" {...boxProps}>
       {isMarketOption && <CoreChart options={MarketChartOption(data)} ref={chartRef} />}
       {isPriceOption && <CoreChart options={PriceOption(data)} ref={chartRef} />}
+      {isLineGraph && <CoreChart options={LineGraphOption(data)} ref={chartRef} />}
     </Box>
   )
 })
