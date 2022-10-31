@@ -13,6 +13,27 @@ import { CustomLink, strokeColor } from '@/styles'
 import { CoinGraph } from './coinGraph/CoinGraph'
 // import viberateLogo from '@/viberate_logo.png'
 
+// const recentlyAddList = [
+//   {
+//     index: 1,
+//     name: 'Viberate',
+//     code: 'VIB',
+//     variable: 0.02,
+//   },
+//   {
+//     index: 2,
+//     name: 'Viberate',
+//     code: 'VIB',
+//     variable: 0.02,
+//   },
+//   {
+//     index: 3,
+//     name: 'Viberate',
+//     code: 'VIB',
+//     variable: 0.02,
+//   },
+// ]
+
 type ColType = {
   id: string
   market_cap_rank: number
@@ -42,35 +63,34 @@ export const Home = () => {
 
   // const { paginationData, handleChangeParams, refetch } = usePaginationQuery<any>(endpoint, params)
 
+  const [listCoinGraph, setListCoinGraph] = React.useState<any[]>([])
+
   const { isLoading, error, data, refetch, isSuccess } = useQuery<ColType[]>(
     [endpoint, { ...params }],
     {
       keepPreviousData: true,
+      onSuccess(data) {
+        // const res = request.post('coin/store-array', data)
+        setListCoinGraph(data.slice(0, 4))
+      },
     },
   )
 
-  const recentlyAddList = [
-    {
-      index: 1,
-      name: 'Viberate',
-      code: 'VIB',
-      variable: 0.02,
-    },
-    {
-      index: 2,
-      name: 'Viberate',
-      code: 'VIB',
-      variable: 0.02,
-    },
-    {
-      index: 3,
-      name: 'Viberate',
-      code: 'VIB',
-      variable: 0.02,
-    },
-  ]
-
-  // console.log({ data })
+  // useQuery<ServerResponseType<any>>(
+  //   [
+  //     `${baseUrl}/coins?referenceCurrencyUuid=${defaultReferenceCurrency}&timePeriod=24h&tiers[0]=1&orderBy=marketCap&orderDirection=desc&limit=100&offset=1700`,
+  //     {},
+  //     {
+  //       headers: cryptoApiHeaders,
+  //     },
+  //   ],
+  //   {
+  //     onSuccess: (data) => {
+  //       console.log('data', data.data.coins)
+  //       const res = request.post('coin/crawl-uuid', data.data.coins)
+  //     },
+  //   },
+  // )
 
   const columns = React.useMemo<Column<ColType>[]>(
     () => [
@@ -147,6 +167,7 @@ export const Home = () => {
     xs: 12,
     md: 12,
   }
+
   return (
     <Grid container spacing={3} pl={{ xs: 1, sm: 'unset' }}>
       <Grid item {...gridFull}>
@@ -170,10 +191,18 @@ export const Home = () => {
       <Grid item {...grid}>
         <TrendingList />
       </Grid>
-      <Grid item {...grid}>
-        <CoinGraph idCoin="25W7FG7om" />
-      </Grid>
-      <Grid item {...grid}>
+
+      {/* <Grid item {...grid}>
+        <CoinGraph idCoin="Qwsogvtv82FCd" />
+      </Grid> */}
+
+      {listCoinGraph.map((coin, index) => (
+        <Grid item {...grid} key={index}>
+          <CoinGraph idCoin={coin.id} coin={coin} />
+        </Grid>
+      ))}
+
+      {/* <Grid item {...grid}>
         <CoinGraph idCoin="VINVMYf0u" />
       </Grid>
       <Grid item {...grid}>
@@ -181,7 +210,7 @@ export const Home = () => {
       </Grid>
       <Grid item {...grid}>
         <CoinGraph idCoin="Qwsogvtv82FCd" />
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 }
