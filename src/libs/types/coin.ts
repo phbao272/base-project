@@ -12,6 +12,13 @@ export interface ICoin {
   links: ILinks
 }
 
+export interface ICoinLaravel {
+  id: string
+  name: string
+  symbol: string
+  uuid: string
+}
+
 export interface IImageCoin {
   large: string
   small: string
