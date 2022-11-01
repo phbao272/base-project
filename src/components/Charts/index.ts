@@ -1,1 +1,1 @@
-export * from './Core'
+export * from './ChartCoin'
