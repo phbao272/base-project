@@ -10,6 +10,8 @@ export interface ICoin {
   platforms: { [key: string]: string }
   detail_platforms: IDetailPlatforms
   links: ILinks
+  current_price: number
+  price_change_percentage_24h: number
 }
 
 export interface ICoinLaravel {

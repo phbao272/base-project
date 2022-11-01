@@ -21,13 +21,10 @@ const parseDataChart = (
 }
 
 const parseVolumeData = (data: string[], priceDataLength: number) => {
-  console.log(priceDataLength)
   const remainder = priceDataLength % data.length
   const numberTime = Math.round(priceDataLength / data.length)
-  console.log(remainder, numberTime)
 
   const arrayTemp = new Array(priceDataLength - remainder).fill('')
-  console.log(arrayTemp.length)
   const volumeData: number[] = []
 
   data.forEach((item, sparkIndex) => {

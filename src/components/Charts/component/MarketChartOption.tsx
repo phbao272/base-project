@@ -39,17 +39,6 @@ const MarketChartOption = (data: dataChartType) => {
   const arrayTemp = new Array(dataMax.toString().length).fill(0)
   arrayTemp.unshift(5)
   let roundingNumber = dataMax * 10
-  console.log(data.dataX)
-
-  // const dataPriceMax = Math.max(...data.dataY.price)
-  // const dataPriceMin = Math.min(...data.dataY.price)
-  // const arrayPriceTemp = new Array(dataPriceMax.toString().length).fill(0)
-  // arrayPriceTemp.unshift()
-  // let roundingPriceNumber = Number(arrayTemp.join(''))
-  // while (dataPriceMax < roundingPriceNumber / 2) {
-  //   roundingPriceNumber /= 2
-  // }
-  // console.log(roundingNumber)
 
   const option: BarLineChartOption = {
     tooltip: {

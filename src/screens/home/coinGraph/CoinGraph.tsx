@@ -10,7 +10,8 @@ import { BarLineChart, dataChartType } from '@/components/Charts/component/BarLi
 import { parseDataChart } from '@/components/Charts/component/parseDataChart'
 import { baseUrl, cryptoApiHeaders, defaultReferenceCurrency } from '@/constants'
 import { ICoin, ICoinLaravel } from '@/libs/types'
-import { CoinDataType, PriceChartDataResponseType, ServerResponseType } from '@/libs/types/apiChart'
+import { PriceChartDataResponseType, ServerResponseType } from '@/libs/types/apiChart'
+import { backgroundColor, blue } from '@/styles'
 
 export type CoinGraphType = {
   idCoin: string
@@ -20,7 +21,6 @@ export type CoinGraphType = {
 const CoinGraph: React.FC<CoinGraphType> = ({ idCoin, coin }) => {
   const { t } = useTranslation()
   const [priceData, setPriceData] = useState<dataChartType>(defaultPriceData)
-  const [coinData, setCoinData] = useState<CoinDataType | null>(null)
 
   useQuery<ICoinLaravel>([`coin/${coin.id}`], {
     onSuccess(data) {
@@ -46,29 +46,11 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin, coin }) => {
     },
   )
 
-  const { isFetching: isCoinDataLoading, refetch: refetchCoin } = useQuery<
-    ServerResponseType<CoinDataType>
-  >(
-    [
-      `${baseUrl}/coin/${idCoin}`,
-      { referenceCurrencyUuid: defaultReferenceCurrency, timePeriod: '24h' },
-      {
-        headers: cryptoApiHeaders,
-      },
-    ],
-    {
-      onSuccess: (data) => {
-        setCoinData(data.data)
-      },
-    },
-  )
-
   useEffect(() => {
     refetch()
-    refetchCoin()
   }, [])
 
-  return !isCoinDataLoading && !isPriceResponseLoading ? (
+  return !isPriceResponseLoading ? (
     <Stack height={280} border="1px solid white" borderRadius={1}>
       <Stack
         direction="row"
@@ -76,7 +58,7 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin, coin }) => {
         px={2}
         py={3.5}
         sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}
-        bgcolor="#191F3A"
+        bgcolor={backgroundColor.primary}
       >
         <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
           <Box
@@ -86,18 +68,18 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin, coin }) => {
               width: 58,
             }}
             alt="logo coin"
-            src={coinData?.coin.iconUrl}
+            src={coin.image as unknown as string}
           ></Box>
           <Stack>
-            <Typography color="white">{coinData?.coin.name}</Typography>
+            <Typography color="white">{coin.name}</Typography>
             <Typography color="white">
-              {`${coinData?.coin.symbol} (USD) = ${Number(coinData?.coin.price).toFixed(3)} (${
-                coinData?.coin.change
-              })`}
+              {`${coin.symbol} (USD) = ${Number(coin.current_price).toFixed(
+                3,
+              )} (${coin.price_change_percentage_24h.toFixed(3)}%)`}
             </Typography>
           </Stack>
         </Stack>
-        <Typography color="#3861FB">{t('more')}</Typography>
+        <Typography color={blue.primary}>{t('more')}</Typography>
       </Stack>
       <Box overflow="hidden">
         <BarLineChart height={250} data={priceData} isLineGraph />
