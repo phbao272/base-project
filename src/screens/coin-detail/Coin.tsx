@@ -1,11 +1,13 @@
-import { Grid, styled, Typography } from '@mui/material'
+import { Box, Grid, styled, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 
 import { BoxDescription } from '@/components'
-import { ICoin, IDescription } from '@/libs/types'
+import { ChartCoin } from '@/components/Charts'
+import { ChartSkeleton } from '@/components/Skeleton/ChartSkeleton'
+import { ICoin, ICoinLaravel, IDescription } from '@/libs/types'
 
 import { CardCoinLeft } from './CardCoinLeft'
 import { CardCoinRight } from './CardCoinRight'
@@ -16,8 +18,15 @@ export const Coin = () => {
   const { coin_id } = useParams()
 
   const [coin, setCoin] = useState<ICoin | null>(null)
+  const [uuidCoin, setUuidCoin] = useState<string>('')
 
   const language = localStorage.getItem('language') || 'en'
+
+  const { isFetching } = useQuery<ICoinLaravel>([`coin/${coin_id}`], {
+    onSuccess(data) {
+      setUuidCoin(data.uuid)
+    },
+  })
 
   useQuery<ICoin>([`https://api.coingecko.com/api/v3/coins/${coin_id}`], {
     onSuccess: (data) => {
@@ -41,7 +50,15 @@ export const Coin = () => {
           <CardCoinRight coin={coin} />
         </Grid>
       </Grid>
-      <div>Đồ thị</div>
+
+      {uuidCoin ? (
+        <Box sx={{ my: 4 }}>
+          {!isFetching ? <ChartCoin idCoin={uuidCoin} /> : <ChartSkeleton />}
+        </Box>
+      ) : (
+        <></>
+      )}
+
       <BoxDescription
         desc={
           coin?.description[language as keyof IDescription] || (coin?.description?.en as string)
