@@ -12,19 +12,18 @@ import { baseUrl, cryptoApiHeaders, defaultReferenceCurrency } from '@/constants
 import { ICoin, ICoinLaravel } from '@/libs/types'
 import { PriceChartDataResponseType, ServerResponseType } from '@/libs/types/apiChart'
 import { backgroundColor, blue } from '@/styles'
-
 export type CoinGraphType = {
-  idCoin: string
   coin: ICoin
 }
 
-const CoinGraph: React.FC<CoinGraphType> = ({ idCoin, coin }) => {
+const CoinGraph: React.FC<CoinGraphType> = ({ coin }) => {
   const { t } = useTranslation()
   const [priceData, setPriceData] = useState<dataChartType>(defaultPriceData)
+  const [uuidCoin, setUuidCoin] = useState<string>('')
 
   useQuery<ICoinLaravel>([`coin/${coin.id}`], {
     onSuccess(data) {
-      console.log('uuid', data.uuid)
+      setUuidCoin(data.uuid)
     },
   })
 
@@ -32,7 +31,7 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin, coin }) => {
     ServerResponseType<PriceChartDataResponseType>
   >(
     [
-      `${baseUrl}/coin/${idCoin}/history`,
+      `${baseUrl}/coin/${uuidCoin}/history`,
       { referenceCurrencyUuid: defaultReferenceCurrency, timePeriod: '30d' },
       {
         headers: cryptoApiHeaders,
@@ -43,6 +42,7 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin, coin }) => {
         const dataParse = parseDataChart(data.data.history)
         setPriceData(dataParse)
       },
+      enabled: uuidCoin !== '',
     },
   )
 
@@ -58,28 +58,28 @@ const CoinGraph: React.FC<CoinGraphType> = ({ idCoin, coin }) => {
         px={2}
         py={3.5}
         sx={{ borderTopLeftRadius: 8, borderTopRightRadius: 8 }}
-        bgcolor={backgroundColor.primary}
+        bgcolor={backgroundColor['primary']}
       >
         <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
           <Box
             component="img"
             sx={{
-              height: 58,
-              width: 58,
+              height: 48,
+              width: 48,
             }}
             alt="logo coin"
-            src={coin.image as unknown as string}
-          ></Box>
+            src={coin?.image as unknown as string}
+          />
           <Stack>
-            <Typography color="white">{coin.name}</Typography>
+            <Typography color="white">{coin?.name}</Typography>
             <Typography color="white">
-              {`${coin.symbol} (USD) = ${Number(coin.current_price).toFixed(
+              {`${coin?.symbol} (USD) = ${Number(coin?.current_price).toFixed(
                 3,
-              )} (${coin.price_change_percentage_24h.toFixed(3)}%)`}
+              )} (${coin?.price_change_percentage_24h.toFixed(3)}%)`}
             </Typography>
           </Stack>
         </Stack>
-        <Typography color={blue.primary}>{t('more')}</Typography>
+        <Typography color={blue['primary']}>{t('more')}</Typography>
       </Stack>
       <Box overflow="hidden">
         <BarLineChart height={250} data={priceData} isLineGraph />

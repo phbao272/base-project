@@ -26,6 +26,7 @@ export const TrendingList = () => {
     onError: (error: any) => {
       toast.error(error.message)
     },
+    retry: 3,
   })
 
   return (

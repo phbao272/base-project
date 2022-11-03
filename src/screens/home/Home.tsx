@@ -73,24 +73,9 @@ export const Home = () => {
         // const res = request.post('coin/store-array', data)
         setListCoinGraph(data.slice(0, 4))
       },
+      retry: 3,
     },
   )
-
-  // useQuery<ServerResponseType<any>>(
-  //   [
-  //     `${baseUrl}/coins?referenceCurrencyUuid=${defaultReferenceCurrency}&timePeriod=24h&tiers[0]=1&orderBy=marketCap&orderDirection=desc&limit=100&offset=1700`,
-  //     {},
-  //     {
-  //       headers: cryptoApiHeaders,
-  //     },
-  //   ],
-  //   {
-  //     onSuccess: (data) => {
-  //       console.log('data', data.data.coins)
-  //       const res = request.post('coin/crawl-uuid', data.data.coins)
-  //     },
-  //   },
-  // )
 
   const columns = React.useMemo<Column<ColType>[]>(
     () => [
@@ -192,25 +177,11 @@ export const Home = () => {
         <TrendingList />
       </Grid>
 
-      {/* <Grid item {...grid}>
-        <CoinGraph idCoin="Qwsogvtv82FCd" />
-      </Grid> */}
-
       {listCoinGraph.map((coin, index) => (
         <Grid item {...grid} key={index}>
-          <CoinGraph idCoin={coin.id} coin={coin} />
+          <CoinGraph coin={coin} />
         </Grid>
       ))}
-
-      {/* <Grid item {...grid}>
-        <CoinGraph idCoin="VINVMYf0u" />
-      </Grid>
-      <Grid item {...grid}>
-        <CoinGraph idCoin="razxDUgYGNAdQ" />
-      </Grid>
-      <Grid item {...grid}>
-        <CoinGraph idCoin="Qwsogvtv82FCd" />
-      </Grid> */}
     </Grid>
   )
 }
