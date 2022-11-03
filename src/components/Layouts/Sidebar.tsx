@@ -2,7 +2,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined'
 import LineAxisOutlinedIcon from '@mui/icons-material/LineAxisOutlined'
 import SplitscreenIcon from '@mui/icons-material/Splitscreen'
-import { Stack } from '@mui/material'
+import { Grid, Stack, Tooltip } from '@mui/material'
 
 import i18n from '@/libs/lang/translations/i18n'
 // import { Link } from 'react-router-dom'
@@ -44,15 +44,29 @@ export const sidebarList = [
 
 export const Sidebar = () => {
   return (
-    <Stack spacing={3} alignItems="flex-start" ml={1} mt={1}>
+    <Grid container spacing={4}>
       {sidebarList.map((item, index) => (
-        <CustomLink to={item.link} key={index}>
-          <SidebarMenuItem>
-            {item.icon}
-            <WhiteTypograpy sx={{ ml: 2, ...item?.sxCustom }}>{item.name}</WhiteTypograpy>
-          </SidebarMenuItem>
-        </CustomLink>
+        <Grid key={index} item xs={12}>
+          <CustomLink to={item.link}>
+            <Tooltip title={item.name} arrow placement="bottom-end">
+              <SidebarMenuItem>
+                {item.icon}
+                <WhiteTypograpy
+                  sx={{
+                    ml: 2,
+                    ...item?.sxCustom,
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {item.name}
+                </WhiteTypograpy>
+              </SidebarMenuItem>
+            </Tooltip>
+          </CustomLink>
+        </Grid>
       ))}
-    </Stack>
+    </Grid>
   )
 }
