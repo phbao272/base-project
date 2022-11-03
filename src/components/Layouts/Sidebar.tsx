@@ -43,12 +43,13 @@ export const sidebarList = [
 ]
 
 export const Sidebar = () => {
+  const browserWidth = window.innerWidth
   return (
     <Grid container spacing={4}>
       {sidebarList.map((item, index) => (
         <Grid key={index} item xs={12}>
           <CustomLink to={item.link}>
-            <Tooltip title={item.name} arrow placement="bottom-end">
+            <Tooltip followCursor title={item.name} arrow placement="bottom-end">
               <SidebarMenuItem>
                 {item.icon}
                 <WhiteTypograpy
