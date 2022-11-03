@@ -43,7 +43,6 @@ export const sidebarList = [
 ]
 
 export const Sidebar = () => {
-  const browserWidth = window.innerWidth
   return (
     <Grid container spacing={4}>
       {sidebarList.map((item, index) => (
