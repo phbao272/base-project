@@ -21,9 +21,9 @@ export const backgroundColor = {
   primary: '#191F3A',
   main: '#0C1023',
   chip: '#252B44',
-  // chipHover: '#2F365F',
-  chipHover: 'red',
+  chipHover: '#1e243f',
   post: '#222531',
+  chipOfWatchList: '#ffffff40',
 }
 
 export const grey = {

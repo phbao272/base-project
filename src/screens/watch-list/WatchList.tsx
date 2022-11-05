@@ -1,11 +1,13 @@
 import { Grid } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Column } from 'react-table'
 
 import { TextChangePercent } from '@/components'
 import { ReactTableWithToolBar } from '@/components/ReactTable'
+import { useAuth } from '@/libs/hooks'
+import { request } from '@/libs/request'
 import { numberWithCommas } from '@/libs/utils'
 import { CustomLink, strokeColor } from '@/styles'
 
@@ -18,19 +20,27 @@ export const WatchList = () => {
     xs: 12,
     md: 12,
   }
+  const { userStorage } = useAuth()
+  const [coinOfWatchList, setCoinOfWatchList] = useState<ColType[]>()
   const endpoint =
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d'
   const { isLoading, error, data, refetch, isSuccess } = useQuery<ColType[]>(
     [endpoint, { ...params }],
     {
       keepPreviousData: true,
-      onSuccess(data) {
-        // const res = request.post('coin/store-array', data)
-        console.log('data', data)
+      onSuccess(coinJson) {
+        request.get(`watch-list/${userStorage?.id}`).then((watchListJson) => {
+          const arrOfWatchListCoinId = watchListJson.data.data.map((item: any) => item.coin_id)
+          const filterCoinByWatchList = coinJson.filter((item) =>
+            arrOfWatchListCoinId.includes(item.id),
+          )
+          setCoinOfWatchList(filterCoinByWatchList)
+        })
       },
       retry: 3,
     },
   )
+
   const columns = React.useMemo<Column<ColType>[]>(
     () => [
       {
@@ -96,6 +106,7 @@ export const WatchList = () => {
     ],
     [],
   )
+
   return (
     <Grid container>
       <Grid item {...gridFull}>
@@ -103,9 +114,9 @@ export const WatchList = () => {
           sxCustom={{ border: `1px solid ${strokeColor['primary']}` }}
           title={t('watch_list.title')}
           columns={columns}
-          data={data || []}
+          data={coinOfWatchList || []}
           isLoading={isLoading}
-          // isLoading={true}
+          // isLoading={is}
           // handleChangeParams={handleChangeParams}
           // {...paginationData}
           // pageCount={10}
