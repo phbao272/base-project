@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { styled } from '@mui/material'
 import React, { CSSProperties } from 'react'
 
 import { backgroundColor } from '@/styles'
@@ -10,6 +13,7 @@ interface IChip {
   endIcon?: React.ReactNode
   hasHover?: boolean
   hasDropDown?: boolean
+  handleClick?: () => void
 }
 
 export const Chip: React.FC<IChip> = ({
@@ -19,9 +23,12 @@ export const Chip: React.FC<IChip> = ({
   startIcon,
   endIcon,
   hasHover = false,
+  handleClick,
 }) => {
   return (
-    <span
+    <CustomSpan
+      onClick={handleClick}
+      hasHover={hasHover}
       style={{
         display: 'inline-flex',
         justifyContent: 'center',
@@ -37,15 +44,21 @@ export const Chip: React.FC<IChip> = ({
         border: isOutline ? '1px solid #636778' : 'unset',
         gap: '4px',
         cursor: hasHover ? 'pointer' : 'unset',
-        // '&:hover': {
-        //   backgroundColor: hasHover ? backgroundColor['chipHover'] : backgroundColor['chip'],
-        // },
         ...sx,
       }}
     >
       {startIcon && startIcon}
       {content}
       {endIcon && endIcon}
-    </span>
+    </CustomSpan>
   )
 }
+const CustomSpan = styled('span', {
+  shouldForwardProp: (props) => props !== 'hasHover',
+})<{ hasHover?: boolean }>(({ theme, hasHover }) => ({
+  '&:hover': {
+    backgroundColor: hasHover
+      ? `${backgroundColor['chipHover']} !important`
+      : backgroundColor['chip'],
+  },
+}))

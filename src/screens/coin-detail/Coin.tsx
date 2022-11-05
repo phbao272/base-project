@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { BoxDescription } from '@/components'
 import { ChartCoin } from '@/components/Charts'
 import { ChartSkeleton } from '@/components/Skeleton/ChartSkeleton'
+import { useAuth } from '@/libs/hooks'
 import { ICoin, ICoinLaravel, IDescription } from '@/libs/types'
 
 import { CardCoinLeft } from './CardCoinLeft'
@@ -18,15 +19,33 @@ export const Coin = () => {
   const { coin_id } = useParams()
 
   const [coin, setCoin] = useState<ICoin | null>(null)
+  const [isCoinInWatchList, setIsCoinInWatchList] = useState<boolean | undefined>(false)
   const [uuidCoin, setUuidCoin] = useState<string>('')
 
   const language = localStorage.getItem('language') || 'en'
+  const { userStorage } = useAuth()
 
-  const { isFetching } = useQuery<ICoinLaravel>([`coin/${coin_id}`], {
-    onSuccess(data) {
-      setUuidCoin(data.uuid)
+  const handleToogleWatchList = (value: boolean) => {
+    setIsCoinInWatchList(value)
+  }
+
+  const { isFetching, data: coinDbData } = useQuery<ICoinLaravel>(
+    [
+      `coin/${coin_id}`,
+      {
+        user_id: userStorage?.id,
+      },
+    ],
+    {
+      onSuccess(data) {
+        console.log('uudd', data.uuid)
+        setUuidCoin(data.uuid)
+        setIsCoinInWatchList(data.is_in_watch_list)
+      },
     },
-  })
+  )
+
+  console.log('coin db data', coinDbData)
 
   useQuery<ICoin>([`https://api.coingecko.com/api/v3/coins/${coin_id}`], {
     onSuccess: (data) => {
@@ -44,7 +63,11 @@ export const Coin = () => {
     <>
       <Grid container spacing={2}>
         <Grid item {...grid}>
-          <CardCoinLeft coin={coin} />
+          <CardCoinLeft
+            handleToogleWatchList={handleToogleWatchList}
+            isCoinInWatchList={coinDbData?.is_in_watch_list}
+            coin={coin}
+          />
         </Grid>
         <Grid item {...grid}>
           <CardCoinRight coin={coin} />

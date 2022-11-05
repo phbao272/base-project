@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import { LanguageHeader, Search } from '@/components/Layouts/Header'
 import { userAtomWithStorage, userProfileImage } from '@/libs/atoms/authAtom'
@@ -28,7 +29,7 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
   const [userStorage, setUserStorage] = useAtom(userAtomWithStorage)
   const [profileImage, setProfileImage] = useAtom(userProfileImage)
   const isLoggined = userStorage ? true : false
-
+  const navigate = useNavigate()
   const [openLoginDialog, setOpenLoginDialog] = useState<boolean>(false)
 
   const handleClose = () => {
@@ -38,6 +39,11 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
   const handleLogout = () => {
     setUserStorage(null)
     setProfileImage(null)
+  }
+
+  const handleNavigate = () => {
+    console.log('navigate')
+    navigate('/watch-list')
   }
 
   return (
@@ -76,9 +82,11 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
         <AlignGrid item container xs={10}>
           <Grid item xs={4}>
             <Stack direction="row" justifyContent="space-around">
-              <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
-                {t('tracking_list')}
-              </Typography>
+              <Button onClick={handleNavigate}>
+                <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
+                  {t('watch_list.name')}
+                </Typography>
+              </Button>
               <Typography sx={{ ...whiteColorStyle, ...responsiveTextStyle }} component="span">
                 {t('menu')}
               </Typography>

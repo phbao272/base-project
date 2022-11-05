@@ -1,5 +1,6 @@
 import { Button, Grid, Menu, MenuItem } from '@mui/material'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { AlignGrid, backgroundColor, strokeColor } from '@/styles'
 
@@ -11,14 +12,15 @@ export const SubHeader = () => {
   const handleClose = () => {
     setAnchorEl(null)
   }
+  const { t } = useTranslation()
 
   const headerList = [
     {
-      name: 'Tracking List',
+      name: t('watch_list'),
       link: '#',
     },
     {
-      name: 'Menu',
+      name: t('menu'),
       link: '#',
     },
   ]
