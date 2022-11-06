@@ -12,6 +12,7 @@ export interface ICoin {
   links: ILinks
   current_price: number
   price_change_percentage_24h: number
+  is_in_watch_list?: boolean
 }
 
 export interface ICoinLaravel {
@@ -19,6 +20,7 @@ export interface ICoinLaravel {
   name: string
   symbol: string
   uuid: string
+  is_in_watch_list?: boolean
 }
 
 export interface IImageCoin {

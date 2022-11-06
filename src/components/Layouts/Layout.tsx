@@ -75,7 +75,7 @@ export const Layout = () => {
       </Hidden>
 
       {/* Main */}
-      <Grid sx={{ minHeight: '100vh' }} item xs={12} sm={10} pr={{ xs: 1, sm: 6 }}>
+      <Grid sx={{ minHeight: 'calc(100vh - 74px)' }} item xs={12} sm={10} pr={{ xs: 1, sm: 6 }}>
         <Outlet />
         <Footer />
       </Grid>

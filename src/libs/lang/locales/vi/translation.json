@@ -3,6 +3,10 @@
   "log_out": "Đăng xuất",
   "sign_up": "Đăng ký",
   "tracking_list": "Danh sách theo dõi",
+  "watch_list": {
+    "name": "Danh sách theo dõi",
+    "title": "Danh sách các tiền điện tử bạn theo dõi"
+  },
   "name": "Tên",
   "menu": "Danh sách",
   "price": "Giá",
@@ -41,5 +45,8 @@
   "table": {
     "rows_per_page": "Hiển thị hàng",
     "page": "Trang"
+  },
+  "home": {
+    "top_coin": "Top các loại tiền điện tử theo khối lượng"
   }
 }

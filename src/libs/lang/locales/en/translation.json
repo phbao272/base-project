@@ -3,6 +3,11 @@
   "log_out": "Log out",
   "sign_up": "Sign up",
   "tracking_list": "Tracking List",
+  "watch_list": {
+    "name": "Watch List",
+    "title": "Your watch list of Cryptocurrency"
+  },
+
   "menu": "Menu",
   "price": "Price",
   "name": "Name",
@@ -41,5 +46,8 @@
   "table": {
     "rows_per_page": "Rows per page",
     "page": "Page"
+  },
+  "home": {
+    "top_coin": "Top Cryptocurrency by Volume"
   }
 }

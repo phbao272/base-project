@@ -1,60 +1,46 @@
 import { Grid } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Column } from 'react-table'
 
 import { TextChangePercent } from '@/components'
 import { ReactTableWithToolBar } from '@/components/ReactTable'
-import { convertCurrency, numberWithCommas, removeDecimal } from '@/libs/utils'
-import { TrendingList } from '@/screens/home'
+import { useAuth } from '@/libs/hooks'
+import { request } from '@/libs/request'
+import { numberWithCommas } from '@/libs/utils'
 import { CustomLink, strokeColor } from '@/styles'
 
-import { CoinGraph } from './coinGraph/CoinGraph'
-// import viberateLogo from '@/viberate_logo.png'
+import { ColType } from '../home'
 
-type ColType = {
-  id: string
-  market_cap_rank: number
-  name: string
-  current_price: string
-  price_change_percentage_1h_in_currency: string
-  price_change_percentage_24h_in_currency: string
-  price_change_percentage_7d_in_currency: string
-  market_cap: string
-  circulating_supply: string
-  symbol: string
-}
-
-const endpoint =
-  'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d'
-
-export const DataX = new Array(498).fill('10:15 AM')
-
-export const DataY = {
-  price: new Array(498).fill(4000),
-  volume: [],
-}
-const dataChart = { dataX: DataX, dataY: DataY }
-
-export const Home = () => {
-  const { t } = useTranslation()
+export const WatchList = () => {
   const [params, setParams] = React.useState({})
-  // const { paginationData, handleChangeParams, refetch } = usePaginationQuery<any>(endpoint, params)
-  const [listCoinGraph, setListCoinGraph] = React.useState<any[]>([])
-
+  const { t } = useTranslation()
+  const gridFull = {
+    xs: 12,
+    md: 12,
+  }
+  const { userStorage } = useAuth()
+  const [coinOfWatchList, setCoinOfWatchList] = useState<ColType[]>()
+  const endpoint =
+    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d'
   const { isLoading, error, data, refetch, isSuccess } = useQuery<ColType[]>(
     [endpoint, { ...params }],
     {
       keepPreviousData: true,
-      onSuccess(data) {
-        // console.log(data)
-        // const res = request.post('coin/store-array', data)
-        setListCoinGraph(data.slice(0, 4))
+      onSuccess(coinJson) {
+        request.get(`watch-list/${userStorage?.id}`).then((watchListJson) => {
+          const arrOfWatchListCoinId = watchListJson.data.data.map((item: any) => item.coin_id)
+          const filterCoinByWatchList = coinJson.filter((item) =>
+            arrOfWatchListCoinId.includes(item.id),
+          )
+          setCoinOfWatchList(filterCoinByWatchList)
+        })
       },
       retry: 3,
     },
   )
+
   const columns = React.useMemo<Column<ColType>[]>(
     () => [
       {
@@ -66,7 +52,7 @@ export const Home = () => {
       {
         Header: t('name'),
         accessor: 'name',
-        width: 150,
+        width: 200,
         sticky: 'left',
         Cell: ({ row }) => {
           return (
@@ -77,15 +63,14 @@ export const Home = () => {
       {
         Header: t('price'),
         accessor: 'current_price',
-        width: 30,
-        Cell: ({ row }) => {
-          return `${convertCurrency(row.original.current_price, row.original.symbol)}`
+        width: 200,
+        Cell: ({ value }) => {
+          return `$${numberWithCommas(value)}`
         },
       },
       {
         Header: '1h %',
         accessor: 'price_change_percentage_1h_in_currency',
-        width: 30,
         Cell: ({ value }) => {
           return <TextChangePercent num={value} />
         },
@@ -93,7 +78,6 @@ export const Home = () => {
       {
         Header: '24h %',
         accessor: 'price_change_percentage_24h_in_currency',
-        width: 30,
         Cell: ({ value }) => {
           return <TextChangePercent num={value} />
         },
@@ -101,7 +85,6 @@ export const Home = () => {
       {
         Header: '7d %',
         accessor: 'price_change_percentage_7d_in_currency',
-        width: 30,
         Cell: ({ value }) => {
           return <TextChangePercent num={value} />
         },
@@ -110,63 +93,36 @@ export const Home = () => {
         Header: t('market_cap'),
         accessor: 'market_cap',
         Cell: ({ value }) => {
-          return `${convertCurrency(value)}`
+          return `$${numberWithCommas(value)}`
         },
       },
       {
         Header: t('circulating_supply'),
         accessor: 'circulating_supply',
-        Cell: ({ row }) => {
-          return (
-            <span style={{ textTransform: 'uppercase' }}>{`${numberWithCommas(
-              removeDecimal(row.original.circulating_supply),
-            )} ${row.original.symbol}`}</span>
-          )
+        Cell: ({ value }) => {
+          return `$${numberWithCommas(value)}`
         },
       },
     ],
     [],
   )
 
-  const grid = {
-    xs: 12,
-    md: 6,
-  }
-
-  const gridFull = {
-    xs: 12,
-    md: 12,
-  }
-
   return (
-    <Grid container spacing={3} pl={{ xs: 1, sm: 'unset' }}>
+    <Grid container>
       <Grid item {...gridFull}>
         <ReactTableWithToolBar
           sxCustom={{ border: `1px solid ${strokeColor['primary']}` }}
-          title={t('home.top_coin')}
+          title={t('watch_list.title')}
           columns={columns}
-          data={data || []}
+          data={coinOfWatchList || []}
           isLoading={isLoading}
-          // isLoading={true}
+          // isLoading={is}
           // handleChangeParams={handleChangeParams}
           // {...paginationData}
           // pageCount={10}
           // manualPagination={true}
         />
       </Grid>
-      <Grid item {...grid}>
-        <TrendingList />
-      </Grid>
-
-      <Grid item {...grid}>
-        <TrendingList />
-      </Grid>
-
-      {listCoinGraph.map((coin, index) => (
-        <Grid item {...grid} key={index}>
-          <CoinGraph coin={coin} />
-        </Grid>
-      ))}
     </Grid>
   )
 }
