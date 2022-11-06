@@ -5,6 +5,7 @@ import { TableOptions, usePagination, useSortBy, useTable } from 'react-table'
 import styled from 'styled-components'
 
 import { ArrowDropDownIcon, ArrowDropUpIcon, FilterOutline } from '@/components'
+import { EmptyTable } from '@/components/ReactTable'
 import { TableSkeleton } from '@/components/Skeleton'
 import { backgroundColor, grey } from '@/styles'
 // Pass params
@@ -154,11 +155,12 @@ function ReactTable<T extends object>(props: TableProperties<T>): ReactElement {
   //     handleChangePagination({ _page: pageIndex + 1, _limit: pageSize })
   //   }
   // }, [handleChangePagination, pageIndex, pageSize])
-
   return (
     <>
-      {isLoading ? (
+      {isLoading && !data.lenght ? (
         <TableSkeleton />
+      ) : !loading && !data.length ? (
+        <EmptyTable />
       ) : (
         <Styles>
           <div
