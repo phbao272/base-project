@@ -1,62 +1,80 @@
-import { Box, Button, Hidden, Popover, styled, Typography } from '@mui/material'
+import { Box, Button, Popover, styled, Typography } from '@mui/material'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import MenuItem from '@mui/material/MenuItem'
 import MenuList from '@mui/material/MenuList'
+import { useAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
-import FlagEn from '@/assets/svgs/en.svg'
-import FlagVn from '@/assets/svgs/vn.svg'
+import FlagBTC from '@/assets/svgs/currencies/btc.png'
+import FlagETH from '@/assets/svgs/currencies/eth.png'
+import FlagUSD from '@/assets/svgs/currencies/USD.svg'
+import FlagVND from '@/assets/svgs/currencies/VND.svg'
+import { currencyAtomWithStorage } from '@/libs/atoms'
+interface ICurrency {
+  name: string
+  symbol: string
+  flag: string
+}
 
-const LANGUAGES = [
+const CURRENCIES: ICurrency[] = [
   {
-    name: 'Tiếng Việt',
-    symbol: 'vi',
-    flag: FlagVn,
+    name: 'Vietnamese Dong',
+    symbol: 'vnd',
+    flag: FlagVND,
   },
   {
-    name: 'English',
-    symbol: 'en',
-    flag: FlagEn,
+    name: 'United States Dollar',
+    symbol: 'usd',
+    flag: FlagUSD,
+  },
+  {
+    name: 'Bitcoin',
+    symbol: 'btc',
+    flag: FlagBTC,
+  },
+  {
+    name: 'Ethereum',
+    symbol: 'eth',
+    flag: FlagETH,
   },
 ]
 
-export const LanguageHeader = () => {
+export const CurrencyHeader = () => {
   const [displayMenu, setDisplayMenu] = useState<string>('none')
   const [flag, setFlag] = useState<string>('')
-  const [languages, setLanguages] = useState()
+  const [currency, setCurrency] = useState<string>('')
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
+  const [currencyAtom, setCurrencyAtom] = useAtom(currencyAtomWithStorage)
 
   const handleOpenMenu = (e: any) => {
     displayMenu === 'none' ? setDisplayMenu('') : setDisplayMenu('none')
     handleClick(e)
   }
-  const { i18n } = useTranslation()
-  const handleSetLang = (l: any) => {
-    i18n.changeLanguage(l.symbol)
-    localStorage.setItem('language', l.symbol)
-    setFlag(l.flag)
-    setLanguages(l.name)
-    // handleOpenMenu()
+
+  const handleSetCurrency = (c: ICurrency) => {
+    setCurrencyAtom(c.symbol)
+    setFlag(c.flag)
+    setCurrency(c.symbol)
     location.reload()
   }
 
-  const setLang = async () => {
-    const symbol = await localStorage.getItem('language')
-    if (symbol) {
-      const l = LANGUAGES.find((i) => i.symbol === symbol)
-      //@ts-ignore
-      setLanguages(l.name)
-      //@ts-ignore
-      setFlag(l.flag)
+  const _setCurrency = () => {
+    if (currencyAtom) {
+      const c = CURRENCIES.find((i) => i.symbol === currencyAtom)
+      if (c) {
+        setCurrency(c.symbol)
+        setFlag(c.flag)
+      } else {
+        setCurrency('usd')
+        setFlag(FlagUSD)
+      }
     } else {
-      //@ts-ignore
-      setLanguages('English')
-      setFlag(FlagEn)
+      setCurrency('usd')
+      setFlag(FlagUSD)
     }
   }
   useEffect(() => {
-    setLang()
+    _setCurrency()
   }, [])
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -74,20 +92,18 @@ export const LanguageHeader = () => {
       <Box>
         <LanguageButton onClick={handleOpenMenu} type="button">
           <ListItemIcon sx={{ justifyContent: 'center' }}>
-            <img src={flag} alt="flag" style={{ width: '40px', height: '40px' }} />
+            <img src={flag} alt="flag" style={{ width: '28px', height: '28px' }} />
           </ListItemIcon>
-          <Hidden mdUp>
-            <Typography
-              sx={{
-                fontSize: '14px',
-                fontWeight: '600',
-                textTransform: 'capitalize',
-                color: '#fff',
-              }}
-            >
-              {languages}
-            </Typography>
-          </Hidden>
+          <Typography
+            sx={{
+              fontSize: '14px',
+              fontWeight: '700',
+              textTransform: 'uppercase',
+              color: '#fff',
+            }}
+          >
+            {currency}
+          </Typography>
         </LanguageButton>
 
         <Popover
@@ -100,17 +116,17 @@ export const LanguageHeader = () => {
           onClose={handleClose}
         >
           <MenuList>
-            {LANGUAGES.map((l, index) => (
+            {CURRENCIES.map((c, index) => (
               <MenuFlagItem
                 key={index}
                 onClick={() => {
-                  handleSetLang(l)
+                  handleSetCurrency(c)
                 }}
               >
                 <ListItemIcon>
-                  <img src={l.flag} alt="flag" style={{ width: '40px', height: '40px' }} />
+                  <img src={c.flag} alt="flag" style={{ width: '36px', height: '36px' }} />
                 </ListItemIcon>
-                <LanguageButton type="button">{l.name}</LanguageButton>
+                <LanguageButton type="button">{c.name}</LanguageButton>
               </MenuFlagItem>
             ))}
           </MenuList>
@@ -138,13 +154,4 @@ const MenuFlagItem = styled(MenuItem)(({ theme }) => ({
   '&:hover': {
     background: 'rgba(89, 195, 255, 0.1)',
   },
-}))
-
-const Overlay = styled('div')(() => ({
-  position: 'absolute',
-  width: '100%',
-  height: '100vh',
-  background: '#0000',
-  left: '0',
-  margin: '0px 20px',
 }))

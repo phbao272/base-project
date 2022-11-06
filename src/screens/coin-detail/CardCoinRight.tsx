@@ -7,7 +7,13 @@ import { BiChevronDown, BiLinkExternal } from 'react-icons/bi'
 import { Card, Chip, ChipDropDown, ChipLink } from '@/components'
 import { LineCodeIcon, LinkIcon, PublicIcon, SearchIcon } from '@/components/Icons'
 import { ICoin } from '@/libs/types'
-import { filterEmptySrting, numberWithCommas, removeDash, removeHttpAndSlash } from '@/libs/utils'
+import {
+  convertCurrency,
+  filterEmptySrting,
+  numberWithCommas,
+  removeDash,
+  removeHttpAndSlash,
+} from '@/libs/utils'
 import { BoxFlexStart, CustomLinkMUI, grey, MenuItemStyled } from '@/styles'
 
 interface ICardCoinRight {
@@ -125,13 +131,13 @@ export const CardCoinRight: React.FC<ICardCoinRight> = ({ coin }) => {
             <TextTitle>
               {t('market_cap')} <AiFillInfoCircle style={{ position: 'relative', top: '2px' }} />
             </TextTitle>
-            <TextPrice>$ {numberWithCommas(coin?.market_data?.market_cap?.usd || 0)}</TextPrice>
+            <TextPrice>{convertCurrency(coin?.market_data?.market_cap?.usd || 0)}</TextPrice>
           </Stack>
           <Stack gap="4px">
             <TextTitle>
-              Khối lượng <AiFillInfoCircle style={{ position: 'relative', top: '2px' }} />
+              {t('volume')} <AiFillInfoCircle style={{ position: 'relative', top: '2px' }} />
             </TextTitle>
-            <TextPrice>$ {numberWithCommas(coin?.market_data?.total_volume?.usd || 0)}</TextPrice>
+            <TextPrice>{convertCurrency(coin?.market_data?.total_volume?.usd || 0)}</TextPrice>
           </Stack>
         </Box>
         <Box sx={{ flex: 1, marginLeft: '16px' }}>
@@ -139,7 +145,10 @@ export const CardCoinRight: React.FC<ICardCoinRight> = ({ coin }) => {
             {t('circulating_supply')}{' '}
             <AiFillInfoCircle style={{ position: 'relative', top: '2px' }} />
           </TextTitle>
-          <TextPrice>{numberWithCommas(coin?.market_data?.circulating_supply || 0)}</TextPrice>
+          <TextPrice>
+            {numberWithCommas(coin?.market_data?.circulating_supply || 0)}{' '}
+            <span style={{ textTransform: 'uppercase' }}>{coin?.symbol}</span>
+          </TextPrice>
         </Box>
       </BoxFlexStart>
     </Card>

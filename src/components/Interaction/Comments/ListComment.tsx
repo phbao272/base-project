@@ -20,8 +20,6 @@ export const ListComment: React.FC<IListCommentProps> = ({ post_id, coin_id, use
     `comment/get-by-post-id/${post_id}`,
   ])
 
-  console.log({ comments })
-
   return (
     <>
       <Box mb="12px">
