@@ -65,7 +65,7 @@ export const PostForm: React.FC<IPostForm> = ({ coin_id }) => {
         })
       }
     } catch (error) {
-      toast.error(error)
+      toast.error(error as string)
     }
   }
 

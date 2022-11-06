@@ -54,7 +54,7 @@ export const CommentForm: React.FC<ICommentForm> = ({ post_id, coin_id, user_nam
         setText('')
       }
     } catch (error) {
-      toast.error(error)
+      toast.error(error as string)
     }
   }
 

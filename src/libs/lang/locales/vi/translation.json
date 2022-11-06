@@ -33,7 +33,8 @@
   "reply": "Phản hồi",
   "bullish": "Tăng",
   "bearish": "Giảm",
-  "top_crypto_by_volume": "Top các loại tiền điện tử theo khối lượng",
+  "no_data": "Không có dữ liệu",
+  "chat_together": "Trò chuyện cùng nhau",
   "sidebar": {
     "all_kind_of_currency": "Các loại tiền điện tử",
     "exchange": "Trao đổi",
