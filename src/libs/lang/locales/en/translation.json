@@ -34,7 +34,8 @@
   "reply": "Reply",
   "bullish": "Bullish",
   "bearish": "Bearish",
-  "top_crypto_by_volume": "Top cryptocurrencies by volume",
+  "no_data": "No data",
+  "chat_together": "Chat together",
   "sidebar": {
     "all_kind_of_currency": "All kind of currency",
     "exchange": "Exchange",
