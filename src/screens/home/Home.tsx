@@ -6,33 +6,12 @@ import { Column } from 'react-table'
 
 import { TextChangePercent } from '@/components'
 import { ReactTableWithToolBar } from '@/components/ReactTable'
-import { numberWithCommas } from '@/libs/utils'
+import { convertCurrency, numberWithCommas, removeDecimal } from '@/libs/utils'
 import { TrendingList } from '@/screens/home'
 import { CustomLink, strokeColor } from '@/styles'
 
 import { CoinGraph } from './coinGraph/CoinGraph'
 // import viberateLogo from '@/viberate_logo.png'
-
-// const recentlyAddList = [
-//   {
-//     index: 1,
-//     name: 'Viberate',
-//     code: 'VIB',
-//     variable: 0.02,
-//   },
-//   {
-//     index: 2,
-//     name: 'Viberate',
-//     code: 'VIB',
-//     variable: 0.02,
-//   },
-//   {
-//     index: 3,
-//     name: 'Viberate',
-//     code: 'VIB',
-//     variable: 0.02,
-//   },
-// ]
 
 type ColType = {
   id: string
@@ -44,6 +23,7 @@ type ColType = {
   price_change_percentage_7d_in_currency: string
   market_cap: string
   circulating_supply: string
+  symbol: string
 }
 
 const endpoint =
@@ -60,9 +40,7 @@ const dataChart = { dataX: DataX, dataY: DataY }
 export const Home = () => {
   const { t } = useTranslation()
   const [params, setParams] = React.useState({})
-
   // const { paginationData, handleChangeParams, refetch } = usePaginationQuery<any>(endpoint, params)
-
   const [listCoinGraph, setListCoinGraph] = React.useState<any[]>([])
 
   const { isLoading, error, data, refetch, isSuccess } = useQuery<ColType[]>(
@@ -70,13 +48,13 @@ export const Home = () => {
     {
       keepPreviousData: true,
       onSuccess(data) {
+        // console.log(data)
         // const res = request.post('coin/store-array', data)
         setListCoinGraph(data.slice(0, 4))
       },
       retry: 3,
     },
   )
-
   const columns = React.useMemo<Column<ColType>[]>(
     () => [
       {
@@ -88,7 +66,7 @@ export const Home = () => {
       {
         Header: t('name'),
         accessor: 'name',
-        width: 200,
+        width: 150,
         sticky: 'left',
         Cell: ({ row }) => {
           return (
@@ -99,14 +77,15 @@ export const Home = () => {
       {
         Header: t('price'),
         accessor: 'current_price',
-        width: 200,
-        Cell: ({ value }) => {
-          return `$${numberWithCommas(value)}`
+        width: 30,
+        Cell: ({ row }) => {
+          return `${convertCurrency(row.original.current_price, row.original.symbol)}`
         },
       },
       {
         Header: '1h %',
         accessor: 'price_change_percentage_1h_in_currency',
+        width: 30,
         Cell: ({ value }) => {
           return <TextChangePercent num={value} />
         },
@@ -114,6 +93,7 @@ export const Home = () => {
       {
         Header: '24h %',
         accessor: 'price_change_percentage_24h_in_currency',
+        width: 30,
         Cell: ({ value }) => {
           return <TextChangePercent num={value} />
         },
@@ -121,6 +101,7 @@ export const Home = () => {
       {
         Header: '7d %',
         accessor: 'price_change_percentage_7d_in_currency',
+        width: 30,
         Cell: ({ value }) => {
           return <TextChangePercent num={value} />
         },
@@ -129,14 +110,18 @@ export const Home = () => {
         Header: t('market_cap'),
         accessor: 'market_cap',
         Cell: ({ value }) => {
-          return `$${numberWithCommas(value)}`
+          return `${convertCurrency(value)}`
         },
       },
       {
         Header: t('circulating_supply'),
         accessor: 'circulating_supply',
-        Cell: ({ value }) => {
-          return `$${numberWithCommas(value)}`
+        Cell: ({ row }) => {
+          return (
+            <span style={{ textTransform: 'uppercase' }}>{`${numberWithCommas(
+              removeDecimal(row.original.circulating_supply),
+            )} ${row.original.symbol}`}</span>
+          )
         },
       },
     ],
@@ -158,7 +143,7 @@ export const Home = () => {
       <Grid item {...gridFull}>
         <ReactTableWithToolBar
           sxCustom={{ border: `1px solid ${strokeColor['primary']}` }}
-          title="Top các loại tiền điện tử theo khối lượng"
+          title={t('top_crypto_by_volume')}
           columns={columns}
           data={data || []}
           isLoading={isLoading}

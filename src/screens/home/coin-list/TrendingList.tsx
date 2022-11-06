@@ -5,10 +5,17 @@ import { useQuery } from 'react-query'
 import { toast } from 'react-toastify'
 
 import { Card } from '@/components'
-import { green, imageStyle, WhiteTypograpy } from '@/styles'
-
+import { roundNumberLastZero } from '@/libs/utils'
+import { CustomLink, green, imageStyle, WhiteTypograpy } from '@/styles'
 interface ICoinListProps {
-  item: { coin_id: number; name: string; symbol: string; thumb: string; price_btc: string | number }
+  item: {
+    id: string
+    coin_id: number
+    name: string
+    symbol: string
+    thumb: string
+    price_btc: string | number
+  }
 }
 
 interface ICoinListResponse {
@@ -21,6 +28,7 @@ export const TrendingList = () => {
 
   useQuery<ICoinListResponse>([`https://api.coingecko.com/api/v3/search/trending`], {
     onSuccess: (data) => {
+      // console.log(data)
       setTrendingList(data.coins.slice(0, 3))
     },
     onError: (error: any) => {
@@ -51,7 +59,10 @@ export const TrendingList = () => {
                   sm: 'center',
                 }}
               >
-                <WhiteTypograpy>{item.item.name}</WhiteTypograpy>
+                <CustomLink to={`/currencies/${item.item.id}`}>
+                  <WhiteTypograpy>{item.item.name}</WhiteTypograpy>
+                </CustomLink>
+
                 <WhiteTypograpy
                   sx={{
                     opacity: 0.5,
@@ -67,7 +78,7 @@ export const TrendingList = () => {
               </Stack>
             </Stack>
             <Typography color={green['primary']}>
-              {Number(item.item.price_btc).toFixed(2)} (bitcoin)
+              {roundNumberLastZero(item.item.price_btc)} (BTC)
             </Typography>
           </Stack>
         ))}
