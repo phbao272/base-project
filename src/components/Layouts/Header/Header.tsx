@@ -5,7 +5,7 @@ import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { LanguageHeader, Search } from '@/components/Layouts/Header'
+import { CurrencyHeader, LanguageHeader, Search } from '@/components/Layouts/Header'
 import { userAtomWithStorage, userProfileImage } from '@/libs/atoms/authAtom'
 import { LoginDialog } from '@/screens/auth/LoginDialog'
 import {
@@ -106,6 +106,7 @@ export const Header = ({ triggerSidebar }: HeaderProps) => {
                 {t('sign_up')}
               </Typography>
               <LanguageHeader />
+              <CurrencyHeader />
               <Avatar
                 sx={{ width: '32px', height: '32px' }}
                 alt="Remy Sharp"

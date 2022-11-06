@@ -40,6 +40,7 @@ export interface IMarketData {
 
 export interface IMarketCap {
   usd: number
+  eth: number
   vnd: number
   btc: number
 }
@@ -52,11 +53,15 @@ export interface IDescription {
 export interface ICurrentPrice {
   usd: number
   eth: number
+  vnd: number
+  btc: number
 }
 
 export interface ITotalVolume {
   usd: number
   eth: number
+  vnd: number
+  btc: number
 }
 
 export interface ILinks {
@@ -72,4 +77,11 @@ export interface IDetailPlatforms {
     contract_address: string
     decimal_place: number
   }
+}
+
+export interface IChangeCurrency {
+  usd: number
+  btc: number
+  eth: number
+  vnd: number
 }

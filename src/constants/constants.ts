@@ -18,3 +18,10 @@ export const cryptoApiHeaders = {
 export const baseUrl = 'https://coinranking1.p.rapidapi.com'
 export const optionTimeFilter = ['24h', '3h', '7d', '30d', '3m', '1y']
 export const defaultReferenceCurrency = 'yhjMzLPhuIDl'
+
+export const CURRENCIES: { [key: string]: string } = {
+  usd: '$',
+  vnd: '₫',
+  eth: 'ETH',
+  btc: 'BTC',
+}
