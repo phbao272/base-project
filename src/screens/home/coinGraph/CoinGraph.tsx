@@ -11,7 +11,7 @@ import { parseDataChart } from '@/components/Charts/component/parseDataChart'
 import { baseUrl, cryptoApiHeaders, defaultReferenceCurrency } from '@/constants'
 import { ICoin, ICoinLaravel } from '@/libs/types'
 import { PriceChartDataResponseType, ServerResponseType } from '@/libs/types/apiChart'
-import { backgroundColor, blue } from '@/styles'
+import { backgroundColor, blue, CustomLink } from '@/styles'
 export type CoinGraphType = {
   coin: ICoin
 }
@@ -79,7 +79,9 @@ const CoinGraph: React.FC<CoinGraphType> = ({ coin }) => {
             </Typography>
           </Stack>
         </Stack>
-        <Typography color={blue['primary']}>{t('more')}</Typography>
+        <CustomLink to={`/currencies/${coin.id}`}>
+          <Typography color={blue['primary']}>{t('more')}</Typography>
+        </CustomLink>
       </Stack>
       <Box overflow="hidden">
         <BarLineChart height={250} data={priceData} isLineGraph />
