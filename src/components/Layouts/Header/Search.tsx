@@ -1,12 +1,18 @@
 import './style.css'
 
 import SearchIcon from '@mui/icons-material/Search'
-import { InputBase } from '@mui/material'
+import { ClickAwayListener, InputBase } from '@mui/material'
 import { alpha, styled } from '@mui/material/styles'
 import React, { useRef, useState } from 'react'
 
+import { request } from '@/libs/request'
+import { ICoinLaravel } from '@/libs/types'
+
+import { SearchDropDown } from './SearchDropDown'
+
 export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
+  width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -46,24 +52,50 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }))
 
 export const Search = () => {
+  const [openDropDown, setOpenDropDown] = useState(false)
   const [searchText, setSearchText] = useState('')
+  const [searchResult, setSearchResult] = useState<ICoinLaravel[] | null>(null)
   const inputRef = useRef(null)
-  const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchTextChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value)
-    console.log('value', e.target.value)
+    const res = await request.get('coin/search', {
+      params: {
+        keyword: e.target.value,
+      },
+    })
+    setSearchResult(res.data)
+    setOpenDropDown(true)
+  }
+
+  // handle off:
+  const handleClickAway = () => {
+    setOpenDropDown(false)
+  }
+
+  const handleCloseDropDown = () => {
+    setOpenDropDown(false)
   }
   return (
-    <SearchContainer>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ 'aria-label': 'search' }}
-        ref={inputRef}
-        value={searchText}
-        onChange={handleSearchTextChange}
-      />
-    </SearchContainer>
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <SearchContainer>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ 'aria-label': 'search' }}
+          ref={inputRef}
+          value={searchText}
+          onChange={handleSearchTextChange}
+        />
+
+        {/* <DropDown data={[1, 2] as any} button={<IconButton>button</IconButton>} /> */}
+        <SearchDropDown
+          searchResult={searchResult}
+          open={openDropDown}
+          handleClose={handleCloseDropDown}
+        />
+      </SearchContainer>
+    </ClickAwayListener>
   )
 }
