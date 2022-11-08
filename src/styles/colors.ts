@@ -34,3 +34,13 @@ export const grey = {
 export const text = {
   primary: '#ffffff',
 }
+
+export const colorCoinGraph = {
+  colorGraph: [
+    'rgba(89, 101, 249, 0.2)',
+    'rgba(255, 89, 89, 0.2)',
+    'rgba(240, 185, 11, 0.2)',
+    'rgba(98, 209, 229, 0.2)',
+  ],
+  colorLine: ['#5965F9', '#FF5959', '#F0B90B', '#62D1E5'],
+}
