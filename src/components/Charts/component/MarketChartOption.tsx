@@ -84,6 +84,9 @@ const MarketChartOption = (data: dataChartType) => {
     yAxis: [
       {
         type: 'value',
+        min: function (value) {
+          return value.min - (value.min * 5) / 100
+        },
         axisLabel: {
           color: 'grey',
           fontSize: 14,
@@ -99,17 +102,18 @@ const MarketChartOption = (data: dataChartType) => {
         splitLine: {
           show: true,
           lineStyle: {
+            width: 0.5,
             color: [
-              'white',
-              'white',
-              'white',
               'lightgrey',
-              'white',
               'lightgrey',
-              'white',
-              'white',
-              'white',
-              'white',
+              'lightgrey',
+              'lightgrey',
+              'lightgrey',
+              'lightgrey',
+              'lightgrey',
+              'transparent',
+              'lightgrey',
+              'lightgrey',
             ],
           },
         },

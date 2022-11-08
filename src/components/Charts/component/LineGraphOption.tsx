@@ -27,6 +27,9 @@ const LineGraphOption = (data: dataChartType) => {
     yAxis: [
       {
         type: 'value',
+        min: function (value) {
+          return value.min - (value.min * 5) / 100
+        },
         axisLine: {
           show: false,
         },

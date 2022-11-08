@@ -37,20 +37,11 @@ function Tooltip(props: any) {
 
 const PriceOption = (data: dataChartType) => {
   const dataMax = Math.max(...data.dataY.volume)
+  const priceMax = Math.max(...data.dataY.price)
+  const priceMin = Math.min(...data.dataY.price)
   const arrayTemp = new Array(dataMax.toString().length).fill(0)
   arrayTemp.unshift(5)
   let roundingNumber = dataMax * 10
-  console.log(data.dataX)
-
-  // const dataPriceMax = Math.max(...data.dataY.price)
-  // const dataPriceMin = Math.min(...data.dataY.price)
-  // const arrayPriceTemp = new Array(dataPriceMax.toString().length).fill(0)
-  // arrayPriceTemp.unshift()
-  // let roundingPriceNumber = Number(arrayTemp.join(''))
-  // while (dataPriceMax < roundingPriceNumber / 2) {
-  //   roundingPriceNumber /= 2
-  // }
-  // console.log(roundingNumber)
 
   const option: BarLineChartOption = {
     tooltip: {
@@ -96,6 +87,10 @@ const PriceOption = (data: dataChartType) => {
     yAxis: [
       {
         type: 'value',
+        min: function (value) {
+          return value.min - (value.min * 5) / 100
+        },
+
         axisLabel: {
           color: 'grey',
           fontSize: 14,
@@ -111,17 +106,18 @@ const PriceOption = (data: dataChartType) => {
         splitLine: {
           show: true,
           lineStyle: {
+            width: 0.5,
             color: [
-              'white',
-              'white',
-              'white',
               'lightgrey',
-              'white',
               'lightgrey',
-              'white',
-              'white',
-              'white',
-              'white',
+              'lightgrey',
+              'lightgrey',
+              'lightgrey',
+              'lightgrey',
+              'lightgrey',
+              'transparent',
+              'lightgrey',
+              'lightgrey',
             ],
           },
         },
@@ -176,16 +172,13 @@ const PriceOption = (data: dataChartType) => {
     visualMap: {
       top: 2000,
       right: 10,
+
+      dimension: 1,
       pieces: [
         {
           gt: 0,
-          lte: 5000,
+          lte: (priceMax + priceMin) / 2,
           color: 'red',
-        },
-        {
-          gt: 5000,
-          lte: 10000,
-          color: 'green',
         },
       ],
       outOfRange: {
@@ -222,14 +215,11 @@ const PriceOption = (data: dataChartType) => {
         markLine: {
           silent: true,
           lineStyle: {
-            color: 'black',
+            color: 'white',
           },
           data: [
             {
-              yAxis: 5000,
-            },
-            {
-              yAxis: 10000,
+              yAxis: (priceMax + priceMin) / 2,
             },
           ],
         },
