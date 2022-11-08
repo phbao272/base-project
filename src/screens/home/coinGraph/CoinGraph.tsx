@@ -14,9 +14,11 @@ import { PriceChartDataResponseType, ServerResponseType } from '@/libs/types/api
 import { backgroundColor, blue, CustomLink } from '@/styles'
 export type CoinGraphType = {
   coin: ICoin
+  colorGraph: string
+  colorLine: string
 }
 
-const CoinGraph: React.FC<CoinGraphType> = ({ coin }) => {
+const CoinGraph: React.FC<CoinGraphType> = ({ coin, colorGraph, colorLine }) => {
   const { t } = useTranslation()
   const [priceData, setPriceData] = useState<dataChartType>(defaultPriceData)
   const [uuidCoin, setUuidCoin] = useState<string>('')
@@ -83,8 +85,8 @@ const CoinGraph: React.FC<CoinGraphType> = ({ coin }) => {
           <Typography color={blue['primary']}>{t('more')}</Typography>
         </CustomLink>
       </Stack>
-      <Box overflow="hidden">
-        <BarLineChart height={250} data={priceData} isLineGraph />
+      <Box overflow="hidden" sx={{ bgcolor: colorGraph }}>
+        <BarLineChart height={250} data={priceData} colorLine={colorLine} isLineGraph />
       </Box>
     </Stack>
   ) : (

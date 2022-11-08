@@ -8,7 +8,7 @@ import { TextChangePercent } from '@/components'
 import { ReactTableWithToolBar } from '@/components/ReactTable'
 import { convertCurrency, numberWithCommas, removeDecimal } from '@/libs/utils'
 import { TrendingList } from '@/screens/home'
-import { CustomLink, strokeColor } from '@/styles'
+import { colorCoinGraph, CustomLink, strokeColor } from '@/styles'
 
 import { CoinGraph } from './coinGraph/CoinGraph'
 // import viberateLogo from '@/viberate_logo.png'
@@ -28,14 +28,6 @@ type ColType = {
 
 const endpoint =
   'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d'
-
-export const DataX = new Array(498).fill('10:15 AM')
-
-export const DataY = {
-  price: new Array(498).fill(4000),
-  volume: [],
-}
-const dataChart = { dataX: DataX, dataY: DataY }
 
 export const Home = () => {
   const { t } = useTranslation()
@@ -164,7 +156,11 @@ export const Home = () => {
 
       {listCoinGraph.map((coin, index) => (
         <Grid item {...grid} key={index}>
-          <CoinGraph coin={coin} />
+          <CoinGraph
+            coin={coin}
+            colorGraph={colorCoinGraph.colorGraph[index]}
+            colorLine={colorCoinGraph.colorLine[index]}
+          />
         </Grid>
       ))}
     </Grid>

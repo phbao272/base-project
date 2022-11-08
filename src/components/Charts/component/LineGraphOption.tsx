@@ -1,8 +1,6 @@
 import { BarLineChartOption, dataChartType } from './BarLineChart'
 
-export const DataX = new Array(498).fill('10:15 AM')
-
-const LineGraphOption = (data: dataChartType) => {
+const LineGraphOption = (data: dataChartType, colorLine?: string) => {
   const option: BarLineChartOption = {
     xAxis: [
       {
@@ -49,7 +47,7 @@ const LineGraphOption = (data: dataChartType) => {
         symbolSize: 10,
         lineStyle: {
           width: 2,
-          color: 'blue',
+          color: colorLine,
         },
         emphasis: {
           focus: 'series',

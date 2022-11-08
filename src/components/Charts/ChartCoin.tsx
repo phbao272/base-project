@@ -86,7 +86,7 @@ const ChartCoin: React.FC<ChartCoinProps> = ({ idCoin }) => {
 
   return isPriceResponseSuccess && isCoinDataSuccess ? (
     <Box>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack direction="row" justifyContent="space-between" flexWrap={{ xs: 'wrap', sm: 'wrap' }}>
         <Box width={380}>
           <TabsStyled value={tab} numberOfTab={3} onChange={(e, value) => setTab(value)}>
             <TabStyled label="Price" />
@@ -95,9 +95,13 @@ const ChartCoin: React.FC<ChartCoinProps> = ({ idCoin }) => {
           </TabsStyled>
         </Box>
 
-        <Stack direction="row">
+        <Stack direction="row" mt={{ xs: 2, sm: 2, md: 0 }}>
           {optionTimeFilter.map((option) => (
-            <Button key={option} onClick={() => setTimeOption(option)}>
+            <Button
+              key={option}
+              sx={{ bgcolor: option === timeOption ? 'white' : '#0C1023' }}
+              onClick={() => setTimeOption(option)}
+            >
               {option}
             </Button>
           ))}
