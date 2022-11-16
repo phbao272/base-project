@@ -29,6 +29,7 @@ export const ListPost: React.FC<IListPost> = ({ coin_id }) => {
       ) : (
         !!posts?.data?.length && (
           <Stack
+            spacing={3}
             sx={{
               backgroundColor: backgroundColor['post'],
               padding: '20px',

@@ -6,6 +6,8 @@ import { BsFillChatRightTextFill } from 'react-icons/bs'
 import { BsCaretDownFill, BsCaretUpFill } from 'react-icons/bs'
 import { toast } from 'react-toastify'
 
+import { GiftIcon } from '@/components'
+import { Chip } from '@/components/Chip'
 import { InforUser, ListComment } from '@/components/Interaction'
 import { STATUS_LIKE, TAG_POST } from '@/constants'
 import { useAuth } from '@/libs/hooks'
@@ -84,6 +86,10 @@ export const Post: React.FC<IPostProps> = ({
     }
   }
 
+  const handleGivePoints = async () => {
+    console.log('+1 point')
+  }
+
   const handleToggleListComment = () => {
     setIsShowComment(!isShowComment)
   }
@@ -148,6 +154,16 @@ export const Post: React.FC<IPostProps> = ({
             <AlignGrid gap="4px" sx={{ cursor: 'pointer' }} onClick={handleDelete}>
               <BiTrash color={grey['secondary']} />
             </AlignGrid>
+          ) : null}
+
+          {userStorage?.id === user_id ? (
+            <Chip
+              startIcon={<GiftIcon />}
+              content="Tặng điểm"
+              isOutline
+              hasHover
+              handleClick={handleGivePoints}
+            />
           ) : null}
 
           {/* {userStorage?.id === user_id ? (
