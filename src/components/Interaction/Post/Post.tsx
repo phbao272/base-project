@@ -23,6 +23,8 @@ import { Text } from '../styled'
 interface IPostProps extends IPost {
   user: UserType
   is_liked: boolean
+  handleOpenPostGiftDialog: () => void
+  handleChoosePost?: (post: any) => void
 }
 
 export const Post: React.FC<IPostProps> = ({
@@ -35,6 +37,9 @@ export const Post: React.FC<IPostProps> = ({
   count_comment,
   user,
   is_liked,
+  is_donated,
+  handleOpenPostGiftDialog,
+  handleChoosePost,
   ...props
 }) => {
   const { t } = useTranslation()
@@ -86,8 +91,14 @@ export const Post: React.FC<IPostProps> = ({
     }
   }
 
-  const handleGivePoints = async () => {
-    console.log('+1 point')
+  const handlePostGift = async () => {
+    const post = {
+      user: user,
+      postId: post_id,
+    }
+
+    handleChoosePost?.(post)
+    handleOpenPostGiftDialog()
   }
 
   const handleToggleListComment = () => {
@@ -156,13 +167,14 @@ export const Post: React.FC<IPostProps> = ({
             </AlignGrid>
           ) : null}
 
-          {userStorage?.id === user_id ? (
+          {userStorage?.id !== user_id ? (
             <Chip
+              sx={{ backgroundColor: is_donated ? 'inherit' : 'none' }}
               startIcon={<GiftIcon />}
-              content="Tặng điểm"
+              content={is_donated ? t('post.donated') : t('post.donate')}
               isOutline
               hasHover
-              handleClick={handleGivePoints}
+              handleClick={!is_donated ? handlePostGift : () => {}}
             />
           ) : null}
 

@@ -74,13 +74,13 @@ export const Coin = () => {
         </Grid>
       </Grid>
 
-      {uuidCoin ? (
+      {/* {uuidCoin ? (
         <Box sx={{ my: 4 }}>
           {!isFetching ? <ChartCoin idCoin={uuidCoin} /> : <ChartSkeleton />}
         </Box>
       ) : (
         <></>
-      )}
+      )} */}
 
       <BoxDescription
         desc={
